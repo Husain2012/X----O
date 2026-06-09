@@ -20,7 +20,6 @@
   --radius:12px;
   --text:#0f172a;
 
-  /* مقاسات مرنة */
   --max-app-width:1100px;
   --sidebar-width:320px;
   --gap:18px;
@@ -28,7 +27,6 @@
   --ui-padding:18px;
 }
 
-/* Dark mode variables */
 :root.dark{
   --bg:#0b1020;
   --card:#0f1726;
@@ -41,9 +39,6 @@
   --text:#e6eef8;
 }
 
-/* ===========================
-   Reset وخطوط مرنة
-   =========================== */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -59,7 +54,6 @@ body{
   padding:20px;
 }
 
-/* تطبيق مركزي مع حدود عرض مرنة */
 .app{
   margin:auto;
   width:100%;
@@ -70,7 +64,6 @@ body{
   padding:var(--ui-padding);
 }
 
-/* بطاقات */
 .card{
   background:var(--card);
   border-radius:var(--radius);
@@ -78,7 +71,6 @@ body{
   padding:14px;
 }
 
-/* رأس التطبيق */
 .header{
   display:flex;
   align-items:center;
@@ -97,7 +89,6 @@ body{
 .title{font-size:clamp(16px,1.6vw,20px);font-weight:700}
 .subtitle{font-size:clamp(12px,1.2vw,14px);color:var(--muted)}
 
-/* عناصر التحكم */
 .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .input, .btn, .select {
   border-radius:10px;
@@ -119,7 +110,6 @@ body{
 }
 .small{padding:8px 10px;font-size:13px}
 
-/* تغليف اللوحة */
 .board-wrap{
   display:flex;
   gap:var(--gap);
@@ -127,7 +117,6 @@ body{
   flex-wrap:wrap;
 }
 
-/* لوحة اللعبة قابلة للتوسع */
 .game-panel{
   flex:1 1 420px;
   min-width:260px;
@@ -136,7 +125,6 @@ body{
   gap:12px;
 }
 
-/* لوحة جانبية */
 .info-panel{
   width:var(--sidebar-width);
   min-width:220px;
@@ -180,7 +168,6 @@ body{
 .cell.x{color:var(--accent)}
 .cell.o{color:var(--accent-2)}
 
-/* معلومات اللعبة */
 .status{
   display:flex;
   align-items:center;
@@ -204,7 +191,6 @@ body{
 }
 .turn{font-weight:700;color:var(--muted)}
 
-/* قائمة الغرف */
 .rooms-list{display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto;padding-right:6px}
 .room-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(15,23,42,0.03)}
 .room-meta{display:flex;gap:8px;align-items:center}
@@ -214,11 +200,9 @@ body{
 .badge.open{background:linear-gradient(90deg,#d1fae5,#bbf7d0);color:#065f46}
 .badge.full{background:linear-gradient(90deg,#fee2e2,#fecaca);color:#7f1d1d}
 
-/* أزرار وأسفل الصفحة */
 .footer-actions{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:8px}
 .alert{padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(15,23,42,0.03);color:var(--muted)}
 
-/* تبديل الوضع الداكن */
 .switch{display:inline-flex;align-items:center;gap:8px}
 .toggle{width:44px;height:26px;border-radius:999px;background:rgba(15,23,42,0.06);position:relative;cursor:pointer}
 .toggle .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:white;transition:left .18s ease;box-shadow:0 4px 12px rgba(2,6,23,0.12)}
@@ -227,20 +211,10 @@ body{
 
 @media (max-width:980px){
   body{padding:12px}
-  .app{
-    grid-template-columns:1fr;
-    gap:12px;
-    padding:12px;
-  }
-  .info-panel{
-    width:100%;
-    order:3;
-  }
+  .app{grid-template-columns:1fr;gap:12px;padding:12px;}
+  .info-panel{width:100%;order:3;}
   .game-panel{order:1}
-  .board{
-    max-width:100%;
-    padding:12px;
-  }
+  .board{max-width:100%;padding:12px;}
   .controls{gap:8px}
 }
 
@@ -252,17 +226,7 @@ body{
   .cell{font-size:clamp(26px, 9vmin, 48px)}
   .room-item{padding:12px}
 }
-
-@media (hover: none) and (pointer: coarse){
-  .cell{border-radius:12px}
-  .btn{padding:12px 14px}
-  .input{padding:12px 14px}
-}
 </style>
-
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
 </head>
 <body>
 
@@ -316,8 +280,7 @@ body{
           </div>
         </div>
 
-        <div id="board" class="board" aria-label="لوحة اللعبة">
-          </div>
+        <div id="board" class="board"></div>
 
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
           <div class="controls-row">
@@ -336,8 +299,7 @@ body{
           <div style="font-size:13px;color:var(--muted)"><span id="roomsCount">0</span></div>
         </div>
 
-        <div id="roomsList" class="rooms-list" aria-live="polite">
-          </div>
+        <div id="roomsList" class="rooms-list"></div>
 
         <div class="footer-actions">
           <div style="font-size:13px;color:var(--muted)">مزامنة حية من السيرفر السحابي</div>
@@ -348,10 +310,10 @@ body{
   </div>
 </div>
 
-<script>
-/* =======================================================
-   إعدادات السيرفر السحابي لـ Firebase (الخاصة بمشروع حسين)
-   ======================================================= */
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, set, get, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAO0ji6BcUlnkiewRjayAU6rDz2QDla9zY",
   authDomain: "xo-online-94196.firebaseapp.com",
@@ -363,11 +325,10 @@ const firebaseConfig = {
   measurementId: "G-7WKWV7WQ9R"
 };
 
-// تشغيل وتفعيل الـ Database أونلاين
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-/* عناصر DOM */
+/* عناصر الواجهة */
 const playerNameInput = document.getElementById('playerName');
 const createRoomBtn = document.getElementById('createRoomBtn');
 const joinRoomIdInput = document.getElementById('joinRoomId');
@@ -403,7 +364,6 @@ let state = {
 function genId(){ return Math.random().toString(36).slice(2,6).toUpperCase(); }
 function genPlayerId(){ return 'p_' + Math.random().toString(36).slice(2,9); }
 
-/* تهيئة اللاعب */
 function initPlayer(){
   const savedName = localStorage.getItem('xo_player_name');
   if (savedName) playerNameInput.value = savedName;
@@ -421,67 +381,58 @@ function updatePlayerUI(){
   localStorage.setItem('xo_player_name', name);
 }
 
-/* إنشاء غرفة على Firebase أونلاين */
+/* إصلاح دالة إنشاء الغرفة */
 function createRoom(){
   const id = genId();
-  const room = { 
+  const roomRef = ref(db, 'rooms/' + id);
+  const roomData = { 
     id, 
     createdAt: Date.now(), 
-    players:[{id:state.playerId, name:state.playerName}], 
-    status:'open', 
-    board:Array(9).fill(null), 
-    turn:'X', 
-    rematchRequests:{} 
+    players:[{id: state.playerId, name: state.playerName}], 
+    status: 'open', 
+    board: Array(9).fill(""), 
+    turn: 'X'
   };
-  db.ref('rooms/' + id).set(room).then(() => {
+  
+  set(roomRef, roomData).then(() => {
     joinRoom(id);
+  }).catch((err) => {
+    showMessage("فشل الاتصال بقاعدة البيانات. تأكد من تفعيل قواعد الحماية (Rules).", true);
   });
 }
 
-/* الانضمام للغرفة أونلاين */
 function joinRoom(id){
-  db.ref('rooms/' + id).once('value').then((snapshot) => {
+  const roomRef = ref(db, 'rooms/' + id);
+  get(roomRef).then((snapshot) => {
     const room = snapshot.val();
     if (!room){ showMessage('الغرفة غير موجودة.', true); return; }
     if (!room.players) room.players = [];
     
     if (!room.players.find(p => p.id === state.playerId)){
-      if (room.players.length >= 2){ showMessage('الغرفة ممتلئة بأشخاص آخرين.', true); return; }
-      room.players.push({id:state.playerId, name:state.playerName});
+      if (room.players.length >= 2){ showMessage('الغرفة ممتلئة.', true); return; }
+      room.players.push({id: state.playerId, name: state.playerName});
       room.status = 'playing';
-      room.board = Array(9).fill(null);
+      room.board = Array(9).fill("");
       room.turn = 'X';
-      room.rematchRequests = {};
-      db.ref('rooms/' + id).set(room);
+      set(roomRef, room);
     }
-    openRoom(id);
-  });
-}
-
-function openRoom(id){
-  db.ref('rooms/' + id).once('value').then((snapshot) => {
-    const room = snapshot.val();
-    if (!room) return;
     state.currentRoom = room;
-    const idx = room.players.findIndex(p => p.id === state.playerId);
-    state.mySymbol = (idx === 0) ? 'X' : 'O';
-    state.board = room.board ? room.board.slice() : Array(9).fill(null);
-    state.turn = room.turn;
-    state.gameActive = (room.status === 'playing');
     updateRoomUI();
-    showMessage(`دخلت الغرفة ${id}. رمز اللعب الخاص بك: ${state.mySymbol}`);
   });
 }
 
-/* رسم اللوحة ومتابعة الضغط */
 function renderBoard(){
   boardEl.innerHTML = '';
-  for (let i=0;i<9;i++){
+  for (let i=0; i<9; i++){
     const cell = document.createElement('div');
     cell.className = 'cell';
     cell.dataset.index = i;
     const val = state.board[i];
-    if (val){ cell.textContent = val; cell.classList.add(val.toLowerCase()); cell.classList.add('disabled'); }
+    if (val && val !== ""){ 
+      cell.textContent = val; 
+      cell.classList.add(val.toLowerCase()); 
+      cell.classList.add('disabled'); 
+    }
     cell.onclick = onCellClick;
     boardEl.appendChild(cell);
   }
@@ -490,28 +441,25 @@ function renderBoard(){
 
 function onCellClick(e){
   const idx = Number(e.currentTarget.dataset.index);
-  if (!state.currentRoom){ showMessage('انضم إلى غرفة أولاً للعب.', true); return; }
+  if (!state.currentRoom){ showMessage('انضم إلى غرفة أولاً.', true); return; }
   if (!state.gameActive){ showMessage('اللعبة انتهت أو لم تبدأ بعد.', true); return; }
-  if (state.turn !== state.mySymbol){ showMessage('ليس دورك الآن! انتظر الخصم.', true); return; }
-  if (state.board[idx]){ showMessage('الخلية مشغولة.', true); return; }
+  if (state.turn !== state.mySymbol){ showMessage('ليس دورك الآن!', true); return; }
+  if (state.board[idx] && state.board[idx] !== ""){ return; }
   
   state.board[idx] = state.mySymbol;
-  state.turn = (state.turn === 'X') ? 'O' : 'X';
+  const nextTurn = (state.turn === 'X') ? 'O' : 'X';
   
-  const rid = state.currentRoom.id;
-  
-  // رفع الحركة فوراً إلى Firebase للطرف الآخر
-  db.ref('rooms/' + rid).update({
+  const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
+  update(roomRef, {
     board: state.board,
-    turn: state.turn
+    turn: nextTurn
   });
 }
 
-/* فحص الفائز والخسارة */
 function evaluateGameLocal(){
   const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
   for (const [a,b,c] of lines){
-    if (state.board[a] && state.board[a]===state.board[b] && state.board[a]===state.board[c]){
+    if (state.board[a] && state.board[a] !== "" && state.board[a]===state.board[b] && state.board[a]===state.board[c]){
       state.winner = state.board[a]; 
       state.gameActive = false;
       showMessage(state.winner === state.mySymbol ? "تهانينا! لقد فزت باللقب 🎉" : `للأسف خَسرت، الفائز هو الخصم (${state.winner})`);
@@ -519,7 +467,7 @@ function evaluateGameLocal(){
       return true;
     }
   }
-  if (state.board.every(x=>x!==null)){ 
+  if (state.board.every(x=> x && x!=="")){ 
     state.winner = 'draw'; 
     state.gameActive = false; 
     rematchBtn.disabled = false; 
@@ -552,129 +500,82 @@ function updateRoomUI(){
   const idx = players.findIndex(p=>p.id===state.playerId);
   state.mySymbol = (idx===0)?'X':'O';
   
-  myNameEl.textContent = state.playerName; myAvatarEl.textContent = state.playerName.charAt(0) || 'ل';
   const opp = players.find(p=>p.id!==state.playerId);
-  if(opp){
-    opponentInfoEl.style.display = 'flex';
-    oppNameEl.textContent = opp.name;
-    oppAvatarEl.textContent = opp.name.charAt(0);
-  } else {
-    opponentInfoEl.style.display = 'none';
-  }
+  if(opp){ opponentInfoEl.style.display = 'flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0); } else { opponentInfoEl.style.display = 'none'; }
   renderBoard();
-}
-
-/* قائمة الغرف المتاحة للسيرفر */
-function createRoomElement(room){
-  const el = document.createElement('div'); el.className='room-item';
-  const meta = document.createElement('div'); meta.className='room-meta';
-  const name = document.createElement('div'); name.className='room-name'; name.textContent = `غرفة ${room.id}`;
-  const players = document.createElement('div'); players.className='room-players'; players.textContent = room.players ? room.players.map(p=>p.name).join(' ضد ') : 'فارغة';
-  meta.appendChild(name); meta.appendChild(players);
-  const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px'; right.style.alignItems='center';
-  const isFull = room.players && room.players.length >= 2;
-  const badge = document.createElement('div'); badge.className='badge ' + (isFull ? 'full' : 'open'); badge.textContent = isFull ? 'ممتلئة' : 'متاحة';
-  const joinBtn = document.createElement('button'); joinBtn.className='btn small'; joinBtn.textContent='انضم';
-  if(isFull) joinBtn.disabled = true;
-  joinBtn.onclick = ()=>{ if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً.', true); return; } joinRoom(room.id); };
-  right.appendChild(badge); right.appendChild(joinBtn);
-  el.appendChild(meta); el.appendChild(right);
-  return el;
 }
 
 function renderRoomsList(){
   roomsListEl.innerHTML = '';
   const roomsArr = Object.values(state.rooms).sort((a,b)=>b.createdAt - a.createdAt);
   roomsCountEl.textContent = roomsArr.length;
-  if (roomsArr.length===0){ const empty = document.createElement('div'); empty.className='alert'; empty.textContent='لا توجد غرف على السيرفر حالياً. أنشئ غرفة.'; roomsListEl.appendChild(empty); return; }
-  roomsArr.forEach(room=>roomsListEl.appendChild(createRoomElement(room)));
+  if (roomsArr.length===0){ 
+    const empty = document.createElement('div'); empty.className='alert'; empty.textContent='لا توجد غرف حالياً.'; roomsListEl.appendChild(empty); return; 
+  }
+  roomsArr.forEach(room => {
+    const el = document.createElement('div'); el.className='room-item';
+    const meta = document.createElement('div'); meta.className='room-meta';
+    const name = document.createElement('div'); name.className='room-name'; name.textContent = `غرفة ${room.id}`;
+    const playersStr = room.players ? room.players.map(p=>p.name).join(' ضد ') : 'فارغة';
+    const players = document.createElement('div'); players.className='room-players'; players.textContent = playersStr;
+    meta.appendChild(name); meta.appendChild(players);
+    
+    const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px'; right.style.alignItems='center';
+    const isFull = room.players && room.players.length >= 2;
+    const badge = document.createElement('div'); badge.className='badge ' + (isFull ? 'full' : 'open'); badge.textContent = isFull ? 'ممتلئة' : 'متاحة';
+    const joinBtn = document.createElement('button'); joinBtn.className='btn small'; joinBtn.textContent='انضم';
+    if(isFull) joinBtn.disabled = true;
+    joinBtn.onclick = ()=>{ if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً.', true); return; } joinRoom(room.id); };
+    
+    right.appendChild(badge); right.appendChild(joinBtn);
+    el.appendChild(meta); el.appendChild(right);
+    roomsListEl.appendChild(el);
+  });
 }
 
 function showMessage(text, isError=false){ messageEl.textContent = text; messageEl.style.color = isError ? 'var(--danger)' : 'var(--text)'; }
 
-/* الأحداث والـ Listeners */
-createRoomBtn.addEventListener('click', ()=>{ if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً قبل إنشاء الغرفة.', true); return; } createRoom(); });
-joinRoomBtn.addEventListener('click', ()=>{ const id = joinRoomIdInput.value.trim().toUpperCase(); if (!id){ showMessage('أدخل رمز الغرفة للانضمام.', true); return; } joinRoom(id); });
-
-playerNameInput.addEventListener('input', ()=>{ 
-  updatePlayerUI(); 
-  if (state.currentRoom){
-    const rid = state.currentRoom.id;
-    db.ref(`rooms/${rid}/players`).once('value').then(snap => {
-      let players = snap.val() || [];
-      const idx = players.findIndex(p=>p.id===state.playerId);
-      if(idx !== -1){
-        players[idx].name = state.playerName;
-        db.ref(`rooms/${rid}/players`).set(players);
-      }
-    });
-  }
+createRoomBtn.addEventListener('click', ()=>{ 
+  if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً قبل إنشاء الغرفة.', true); return; } 
+  createRoom(); 
 });
 
-rematchBtn.addEventListener('click', ()=>{ 
-  if (!state.currentRoom) return;
-  const rid = state.currentRoom.id;
-  db.ref('rooms/' + rid).once('value').then((snapshot) => {
-    const room = snapshot.val();
-    if (!room) return;
-    room.rematchRequests = room.rematchRequests || {};
-    room.rematchRequests[state.playerId] = true;
-    
-    const players = room.players.map(p=>p.id);
-    const both = players.every(pid => room.rematchRequests[pid]);
-    if (both){
-      room.board = Array(9).fill(null);
-      room.turn = 'X';
-      room.rematchRequests = {};
-      room.status = 'playing';
-    } else {
-      showMessage('تم إرسال طلب إعادة اللعب، بانتظار موافقة الطرف الآخر..');
-    }
-    db.ref('rooms/' + rid).set(room);
-  });
+joinRoomBtn.addEventListener('click', ()=>{ 
+  const id = joinRoomIdInput.value.trim().toUpperCase(); 
+  if (!id){ showMessage('أدخل رمز الغرفة للانضمام.', true); return; } 
+  joinRoom(id); 
 });
 
 resetBtn.addEventListener('click', ()=>{ 
-  if (!state.currentRoom){ showMessage('لا توجد غرفة حالية لإعادة ضبطها.', true); return; }
-  const rid = state.currentRoom.id;
-  db.ref('rooms/' + rid).once('value').then((snapshot) => {
-    const room = snapshot.val();
-    if (!room) return;
-    room.board = Array(9).fill(null);
-    room.turn = 'X';
-    room.status = (room.players.length === 2) ? 'playing' : 'open';
-    room.rematchRequests = {};
-    db.ref('rooms/' + rid).set(room);
-    showMessage('تم إعادة ضبط الجولة بنجاح.');
-  });
+  if (!state.currentRoom) return;
+  const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
+  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing' });
 });
 
 clearRoomsBtn.addEventListener('click', ()=>{ 
-  if (!confirm('هل تريد مسح جميع الغرف الحالية من السيرفر السحابي؟')) return;
-  db.ref('rooms').remove();
+  if (!confirm('هل تريد مسح جميع الغرف الحالية؟')) return;
+  remove(ref(db, 'rooms'));
   state.currentRoom = null;
   updateRoomUI();
-  showMessage('تم تنظيف السيرفر تماماً.');
 });
 
-/* Dark mode */
-function setDarkMode(on){ if (on){ document.documentElement.classList.add('dark'); darkToggle.classList.add('on'); darkToggle.setAttribute('aria-checked','true'); localStorage.setItem('xo_dark','1'); } else { document.documentElement.classList.remove('dark'); darkToggle.classList.remove('on'); darkToggle.setAttribute('aria-checked','false'); localStorage.removeItem('xo_dark'); } }
+/* تفعيل وضع الـ Dark Mode */
+function setDarkMode(on){ if (on){ document.documentElement.classList.add('dark'); darkToggle.classList.add('on'); localStorage.setItem('xo_dark','1'); } else { document.documentElement.classList.remove('dark'); darkToggle.classList.remove('on'); localStorage.removeItem('xo_dark'); } }
 darkToggle.addEventListener('click', ()=> setDarkMode(!darkToggle.classList.contains('on')));
 if (localStorage.getItem('xo_dark')) setDarkMode(true);
 
-/* الاستماع للتغييرات الفورية أونلاين من السيرفر (Realtime Listener) */
+/* الاستماع للتغييرات الفورية */
 function listenToFirebase(){
-  db.ref('rooms').on('value', (snapshot) => {
+  onValue(ref(db, 'rooms'), (snapshot) => {
     state.rooms = snapshot.val() || {};
     renderRoomsList();
     
-    // في حال كنت داخل غرفة حالياً، يتحدث المشهد فوراً عند وصول أي حركة
     if (state.currentRoom && state.rooms[state.currentRoom.id]) {
-      const activeRoomInServer = state.rooms[state.currentRoom.id];
-      state.currentRoom = activeRoomInServer;
-      state.board = activeRoomInServer.board ? activeRoomInServer.board.slice() : Array(9).fill(null);
-      state.turn = activeRoomInServer.turn;
-      state.gameActive = (activeRoomInServer.status === 'playing');
+      const activeRoom = state.rooms[state.currentRoom.id];
+      state.currentRoom = activeRoom;
+      state.board = activeRoom.board ? activeRoom.board.slice() : Array(9).fill("");
+      state.turn = activeRoom.turn;
+      state.gameActive = (activeRoom.status === 'playing');
       
       updateRoomUI();
       evaluateGameLocal();
@@ -682,27 +583,9 @@ function listenToFirebase(){
   });
 }
 
-function init(){ 
-  initPlayer(); 
-  listenToFirebase(); 
-  showMessage('متصل بالسيرفر بنجاح! جاهز للعب.'); 
-}
-init();
-
-/* عند إغلاق الصفحة: مغادرة الغرفة */
-window.addEventListener('beforeunload', ()=>{
-  if (state.currentRoom){
-    const rid = state.currentRoom.id;
-    db.ref('rooms/' + rid).once('value').then((snapshot) => {
-      const room = snapshot.val();
-      if (room && room.players) {
-        room.players = room.players.filter(p=>p.id!==state.playerId);
-        if (room.players.length===0){ db.ref('rooms/' + rid).remove(); } 
-        else { room.status='open'; room.board = Array(9).fill(null); room.turn='X'; room.rematchRequests = {}; db.ref('rooms/' + rid).set(room); }
-      }
-    });
-  }
-});
+initPlayer(); 
+listenToFirebase();
+showMessage('متصل بالسيرفر بنجاح! جاهز للعب.');
 </script>
 </body>
 </html>
