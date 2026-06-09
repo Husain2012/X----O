@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>لعبة XO — Responsive</title>
+<style>
+/* ===========================
+   متغيرات عامة (Light / Dark)
+   =========================== */
+:root{
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#6c5ce7;
+  --accent-2:#00b894;
+  --danger:#ff6b6b;
+  --glass: rgba(255,255,255,0.6);
+  --shadow: 0 6px 18px rgba(15,23,42,0.08);
+  --radius:12px;
+  --text:#0f172a;
+
+  /* مقاسات مرنة */
+  --max-app-width:1100px;
+  --sidebar-width:320px;
+  --gap:18px;
+  --cell-gap:10px;
+  --ui-padding:18px;
+}
+
+/* Dark mode variables */
+:root.dark{
+  --bg:#0b1020;
+  --card:#0f1726;
+  --muted:#9aa4b2;
+  --accent:#7c5cff;
+  --accent-2:#00d28a;
+  --danger:#ff7b7b;
+  --glass: rgba(255,255,255,0.03);
+  --shadow: 0 8px 30px rgba(2,6,23,0.6);
+  --text:#e6eef8;
+}
+
+/* ===========================
+   Reset وخطوط مرنة
+   =========================== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(180deg,var(--bg), #e9eef8 60%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  align-items:stretch;
+  min-height:100vh;
+  padding:20px;
+}
+
+/* تطبيق مركزي مع حدود عرض مرنة */
+.app{
+  margin:auto;
+  width:100%;
+  max-width:var(--max-app-width);
+  display:grid;
+  grid-template-columns: 1fr minmax(260px, var(--sidebar-width));
+  gap:var(--gap);
+  padding:var(--ui-padding);
+}
+
+/* بطاقات */
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:14px;
+}
+
+/* رأس التطبيق */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:8px;
+}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{
+  width:48px;height:48px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),#4f46e5);
+  display:flex;align-items:center;justify-content:center;color:white;font-weight:700;
+  box-shadow:0 6px 18px rgba(79,70,229,0.18);
+  font-size:18px;
+}
+.title{font-size:clamp(16px,1.6vw,20px);font-weight:700}
+.subtitle{font-size:clamp(12px,1.2vw,14px);color:var(--muted)}
+
+/* عناصر التحكم */
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.input, .btn, .select {
+  border-radius:10px;
+  padding:10px 12px;
+  border:1px solid rgba(15,23,42,0.06);
+  background:transparent;
+  font-size:clamp(13px,1.2vw,15px);
+  color:var(--text);
+}
+.input::placeholder{color:var(--muted)}
+.btn{
+  background:linear-gradient(90deg,var(--accent),#4f46e5);
+  color:white;border:0;cursor:pointer;
+  box-shadow:0 8px 20px rgba(79,70,229,0.12);
+}
+.btn.ghost{
+  background:transparent;color:var(--text);border:1px solid rgba(15,23,42,0.06);
+  box-shadow:none;
+}
+.small{padding:8px 10px;font-size:13px}
+
+/* تغليف اللوحة */
+.board-wrap{
+  display:flex;
+  gap:var(--gap);
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+
+/* لوحة اللعبة قابلة للتوسع */
+.game-panel{
+  flex:1 1 420px;
+  min-width:260px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* لوحة جانبية */
+.info-panel{
+  width:var(--sidebar-width);
+  min-width:220px;
+}
+
+/* ====== اللوحة 3x3 مرنة ======
+   - نستخدم max-width و aspect-ratio للحفاظ على شكل مربع
+   - حجم الخلايا يتغير ديناميكياً باستخدام clamp() و vw/vh
+*/
+.board{
+  width:100%;
+  max-width:min(560px, calc(100vw - var(--sidebar-width) - 80px));
+  aspect-ratio:1/1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--cell-gap);
+  padding:var(--cell-gap);
+  border-radius:14px;
+  background:linear-gradient(180deg,var(--glass), rgba(255,255,255,0.02));
+  border:1px solid rgba(15,23,42,0.04);
+  margin:auto;
+  position:relative;
+}
+
+/* حجم الخط داخل الخلايا يتكيف مع حجم اللوحة */
+.cell{
+  background:transparent;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:clamp(28px, 6.5vmin, 56px); /* مرن جداً */
+  font-weight:800;
+  color:var(--text);
+  cursor:pointer;
+  transition:transform .12s ease, background .12s ease;
+  user-select:none;
+  -webkit-user-select:none;
+  min-height:0;
+  aspect-ratio:1/1;
+  touch-action:manipulation; /* تحسين اللمس */
+  -webkit-tap-highlight-color: transparent;
+}
+.cell:hover{transform:translateY(-4px)}
+.cell.disabled{cursor:not-allowed;opacity:0.6;transform:none}
+.cell.x{color:var(--accent)}
+.cell.o{color:var(--accent-2)}
+
+/* معلومات اللعبة */
+.status{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-content:space-between;
+  margin-bottom:6px;
+}
+.players{display:flex;gap:8px;align-items:center}
+.player{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  padding:8px 10px;
+  border-radius:10px;
+  background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(15,23,42,0.03);
+}
+.avatar{
+  width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#fff,rgba(255,255,255,0.02));
+  display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text);
+}
+.turn{font-weight:700;color:var(--muted)}
+
+/* قائمة الغرف */
+.rooms-list{display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto;padding-right:6px}
+.room-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(15,23,42,0.03)}
+.room-meta{display:flex;gap:8px;align-items:center}
+.room-name{font-weight:700}
+.room-players{font-size:13px;color:var(--muted)}
+.badge{padding:6px 8px;border-radius:999px;font-size:12px;background:rgba(0,0,0,0.04)}
+.badge.open{background:linear-gradient(90deg,#d1fae5,#bbf7d0);color:#065f46}
+.badge.full{background:linear-gradient(90deg,#fee2e2,#fecaca);color:#7f1d1d}
+
+/* أزرار وأسفل الصفحة */
+.footer-actions{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:8px}
+.alert{padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(15,23,42,0.03);color:var(--muted)}
+
+/* تبديل الوضع الداكن */
+.switch{display:inline-flex;align-items:center;gap:8px}
+.toggle{width:44px;height:26px;border-radius:999px;background:rgba(15,23,42,0.06);position:relative;cursor:pointer}
+.toggle .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:white;transition:left .18s ease;box-shadow:0 4px 12px rgba(2,6,23,0.12)}
+.toggle.on{background:linear-gradient(90deg,var(--accent),#4f46e5)}
+.toggle.on .knob{left:21px}
+
+/* تحسين التمرير */
+.rooms-list::-webkit-scrollbar{width:8px}
+.rooms-list::-webkit-scrollbar-thumb{background:rgba(15,23,42,0.06);border-radius:8px}
+
+/* ===========================
+   استجابة متقدمة (Responsive)
+   - على الشاشات الصغيرة: نجعل التخطيط عمودي، ونحول الشريط الجانبي إلى شريط سفلي
+   - نزيد المساحات اللمسية (touch targets)
+   =========================== */
+@media (max-width:980px){
+  body{padding:12px}
+  .app{
+    grid-template-columns:1fr;
+    gap:12px;
+    padding:12px;
+  }
+  .info-panel{
+    width:100%;
+    order:3;
+  }
+  .game-panel{order:1}
+  .board{
+    max-width:100%;
+    /* نترك هامش داخلي أكبر على الهواتف */
+    padding:12px;
+  }
+  .controls{gap:8px}
+}
+
+/* على الشاشات الصغيرة جداً (الهواتف) نعرض اللوحة أولاً ثم قائمة الغرف كـ bottom sheet */
+@media (max-width:520px){
+  .header{flex-direction:column;align-items:flex-start;gap:8px}
+  .controls{width:100%;justify-content:flex-start}
+  .input{flex:1 1 auto;min-width:120px}
+  .btn.small{padding:10px 12px}
+  .cell{font-size:clamp(26px, 9vmin, 48px)}
+  .room-item{padding:12px}
+}
+
+/* تحسينات للمس: زيادة حجم الأزرار والخلايا عند اللمس */
+@media (hover: none) and (pointer: coarse){
+  .cell{border-radius:12px}
+  .btn{padding:12px 14px}
+  .input{padding:12px 14px}
+}
+
+/* ===========================
+   لمسات نهائية
+   =========================== */
+.win-line{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:20px;font-weight:800;color:var(--accent)}
+</style>
+</head>
+<body>
+<!--
+  ملف index.html واحد: واجهة متجاوبة تماماً.
+  الكود السابق للعبة (JS) يمكن دمجه كما هو مع هذه الأنماط.
+  أدناه أضع نفس واجهة HTML الأساسية مع ربط JS مدمج.
+-->
+
+<div class="app" id="app">
+  <div class="main card" style="display:flex;flex-direction:column;gap:12px">
+    <div class="header">
+      <div class="brand">
+        <div class="logo">XO</div>
+        <div>
+          <div class="title">لعبة XO — غرف متعددة</div>
+          <div class="subtitle">واجهة متجاوبة لجميع الأجهزة</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <input id="playerName" class="input" placeholder="اسمك (مثال: حسين)" maxlength="18" />
+        <button id="createRoomBtn" class="btn small">إنشاء غرفة جديدة</button>
+        <input id="joinRoomId" class="input" placeholder="رمز الغرفة للانضمام" style="width:170px" />
+        <button id="joinRoomBtn" class="btn ghost small">انضم</button>
+        <div class="switch" title="تبديل الوضع الداكن">
+          <div id="darkToggle" class="toggle" role="switch" aria-checked="false">
+            <div class="knob"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="board-wrap">
+      <div class="game-panel card">
+        <div class="status">
+          <div class="players">
+            <div class="player" id="playerInfo">
+              <div class="avatar" id="myAvatar">ح</div>
+              <div>
+                <div id="myName" style="font-weight:700">غير مسجل</div>
+                <div style="font-size:12px;color:var(--muted)">أنت</div>
+              </div>
+            </div>
+            <div class="player" id="opponentInfo" style="display:none">
+              <div class="avatar" id="oppAvatar">م</div>
+              <div>
+                <div id="oppName" style="font-weight:700">لاعب آخر</div>
+                <div style="font-size:12px;color:var(--muted)">خصم</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align:right">
+            <div class="turn" id="turnText">غير متصل</div>
+            <div style="font-size:12px;color:var(--muted)">حالة الغرفة</div>
+          </div>
+        </div>
+
+        <div id="board" class="board" aria-label="لوحة اللعبة">
+          <!-- الخلايا تُنشأ ديناميكياً عبر JavaScript -->
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+          <div class="controls-row">
+            <button id="resetBtn" class="btn ghost small">إعادة ضبط الغرفة</button>
+            <button id="rematchBtn" class="btn small" disabled>إعادة اللعب</button>
+          </div>
+          <div style="font-size:13px;color:var(--muted)"><span id="roomIdDisplay">غير متصل</span></div>
+        </div>
+
+        <div id="message" class="alert" style="margin-top:12px">مرحباً! أنشئ غرفة أو انضم للبدء.</div>
+      </div>
+
+      <div class="info-panel card sidebar">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-weight:700">قائمة الغرف المفتوحة</div>
+          <div style="font-size:13px;color:var(--muted)"><span id="roomsCount">0</span></div>
+        </div>
+
+        <div id="roomsList" class="rooms-list" aria-live="polite">
+          <!-- عناصر الغرف تُملأ ديناميكياً -->
+        </div>
+
+        <div class="footer-actions">
+          <div style="font-size:13px;color:var(--muted)">مزامنة عبر BroadcastChannel / LocalStorage</div>
+          <button id="clearRoomsBtn" class="btn ghost small">مسح الغرف (محلي)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===========================
+   JavaScript Vanilla (مختصر)
+   - هذا الجزء هو نسخة مختصرة من منطق اللعبة السابق
+   - يركز على التوافق مع CSS الجديد (Responsive)
+   - يمكنك استبداله بكود اللعبة الكامل السابق دون تغيير الأنماط
+   =========================== */
+
+/* عناصر DOM */
+const playerNameInput = document.getElementById('playerName');
+const createRoomBtn = document.getElementById('createRoomBtn');
+const joinRoomIdInput = document.getElementById('joinRoomId');
+const joinRoomBtn = document.getElementById('joinRoomBtn');
+const roomsListEl = document.getElementById('roomsList');
+const roomsCountEl = document.getElementById('roomsCount');
+const boardEl = document.getElementById('board');
+const messageEl = document.getElementById('message');
+const roomIdDisplay = document.getElementById('roomIdDisplay');
+const myNameEl = document.getElementById('myName');
+const myAvatarEl = document.getElementById('myAvatar');
+const oppNameEl = document.getElementById('oppName');
+const oppAvatarEl = document.getElementById('oppAvatar');
+const opponentInfoEl = document.getElementById('opponentInfo');
+const rematchBtn = document.getElementById('rematchBtn');
+const resetBtn = document.getElementById('resetBtn');
+const clearRoomsBtn = document.getElementById('clearRoomsBtn');
+const turnTextEl = document.getElementById('turnText');
+const darkToggle = document.getElementById('darkToggle');
+
+let state = {
+  playerId: null,
+  playerName: '',
+  currentRoom: null,
+  rooms: {},
+  board: Array(9).fill(null),
+  mySymbol: null,
+  turn: null,
+  gameActive: false,
+  winner: null
+};
+
+/* توليد معرفات */
+function genId(prefix='r'){ return Math.random().toString(36).slice(2,8).toUpperCase(); }
+function genPlayerId(){ return 'p_' + Math.random().toString(36).slice(2,9); }
+
+/* تهيئة اللاعب */
+function initPlayer(){
+  const savedName = localStorage.getItem('xo_player_name');
+  if (savedName) playerNameInput.value = savedName;
+  let pid = sessionStorage.getItem('xo_player_id');
+  if (!pid){ pid = genPlayerId(); sessionStorage.setItem('xo_player_id', pid); }
+  state.playerId = pid;
+  updatePlayerUI();
+}
+function updatePlayerUI(){
+  const name = playerNameInput.value.trim() || 'لاعب';
+  state.playerName = name;
+  myNameEl.textContent = name;
+  myAvatarEl.textContent = name.charAt(0) || 'ل';
+  localStorage.setItem('xo_player_name', name);
+}
+
+/* إنشاء غرفة بسيطة محلياً */
+function createRoom(){
+  const id = genId();
+  const room = { id, createdAt: Date.now(), players:[{id:state.playerId,name:state.playerName}], status:'open', board:Array(9).fill(null), turn:'X', rematchRequests:{} };
+  state.rooms[id] = room;
+  saveRoomsToStorage();
+  joinRoom(id);
+}
+function saveRoomsToStorage(){ localStorage.setItem('xo_rooms', JSON.stringify(state.rooms)); }
+function loadRoomsFromStorage(){ try{ state.rooms = JSON.parse(localStorage.getItem('xo_rooms')) || {}; }catch(e){ state.rooms = {}; } renderRoomsList(); }
+
+/* الانضمام وفتح الغرفة */
+function joinRoom(id){
+  loadRoomsFromStorage();
+  const room = state.rooms[id];
+  if (!room){ showMessage('الغرفة غير موجودة.', true); return; }
+  if (!room.players.find(p=>p.id===state.playerId)){
+    if (room.players.length>=2){ showMessage('الغرفة ممتلئة.', true); return; }
+    room.players.push({id:state.playerId,name:state.playerName});
+    room.status = (room.players.length===2)?'playing':'open';
+    if (room.status==='playing'){ room.board = Array(9).fill(null); room.turn='X'; room.rematchRequests={}; }
+    state.rooms[id] = room; saveRoomsToStorage();
+  }
+  openRoom(id);
+}
+function openRoom(id){
+  const room = state.rooms[id];
+  if (!room) return;
+  state.currentRoom = JSON.parse(JSON.stringify(room));
+  const idx = room.players.findIndex(p=>p.id===state.playerId);
+  state.mySymbol = (idx===0)?'X':'O';
+  state.board = room.board.slice();
+  state.turn = room.turn;
+  state.gameActive = (room.status==='playing');
+  updateRoomUI();
+  showMessage(`انضممت إلى الغرفة ${id}.`);
+}
+
+/* واجهة الغرفة واللوحة */
+function renderBoard(){
+  boardEl.innerHTML = '';
+  for (let i=0;i<9;i++){
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.dataset.index = i;
+    const val = state.board[i];
+    if (val){ cell.textContent = val; cell.classList.add(val.toLowerCase()); cell.classList.add('disabled'); }
+    cell.onclick = onCellClick;
+    boardEl.appendChild(cell);
+  }
+  updateTurnUI();
+}
+function onCellClick(e){
+  const idx = Number(e.currentTarget.dataset.index);
+  if (!state.currentRoom){ showMessage('انضم إلى غرفة أولاً للعب.', true); return; }
+  if (!state.gameActive){ showMessage('اللعبة غير نشطة.', true); return; }
+  if (state.turn !== state.mySymbol){ showMessage('ليس دورك الآن.', true); return; }
+  if (state.board[idx]){ showMessage('الخلية مشغولة.', true); return; }
+  state.board[idx] = state.mySymbol;
+  state.turn = (state.turn==='X')?'O':'X';
+  // تحديث الغرفة المركزية محلياً
+  const rid = state.currentRoom.id;
+  const room = state.rooms[rid];
+  if (!room) return;
+  room.board = state.board.slice();
+  room.turn = state.turn;
+  state.rooms[rid] = room;
+  saveRoomsToStorage();
+  evaluateGame();
+  renderBoard();
+}
+function evaluateGame(){
+  const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for (const [a,b,c] of lines){
+    if (state.board[a] && state.board[a]===state.board[b] && state.board[a]===state.board[c]){
+      state.winner = state.board[a]; state.gameActive = false;
+      const rid = state.currentRoom.id; const room = state.rooms[rid];
+      if (room){ room.status='open'; room.board = state.board.slice(); room.turn = state.turn; state.rooms[rid]=room; saveRoomsToStorage(); }
+      showMessage(`انتصار ${state.winner}!`);
+      rematchBtn.disabled = false;
+      return;
+    }
+  }
+  if (state.board.every(x=>x!==null)){ state.winner='draw'; state.gameActive=false; rematchBtn.disabled=false; showMessage('تعادل!'); return; }
+  state.winner = null; rematchBtn.disabled = true; showMessage(`دور: ${state.turn}`);
+}
+function updateTurnUI(){
+  if (!state.currentRoom){ turnTextEl.textContent='غير متصل'; roomIdDisplay.textContent='غير متصل'; opponentInfoEl.style.display='none'; rematchBtn.disabled=true; return; }
+  roomIdDisplay.textContent = `رمز الغرفة: ${state.currentRoom.id}`;
+  const players = state.currentRoom.players || [];
+  const opp = players.find(p=>p.id!==state.playerId);
+  if (opp){ opponentInfoEl.style.display='flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0) || 'م'; } else { opponentInfoEl.style.display='none'; }
+  turnTextEl.textContent = state.gameActive ? `دور: ${state.turn}` : (state.currentRoom.status==='playing' ? 'بانتظار...' : 'بانتظار لاعب');
+}
+function updateRoomUI(){
+  updatePlayerUI();
+  if (!state.currentRoom){ renderBoard(); renderRoomsList(); return; }
+  const rid = state.currentRoom.id;
+  const central = state.rooms[rid];
+  if (central){ state.currentRoom = JSON.parse(JSON.stringify(central)); state.board = state.currentRoom.board.slice(); state.turn = state.currentRoom.turn; state.gameActive = (state.currentRoom.status==='playing'); }
+  const players = state.currentRoom.players || [];
+  const idx = players.findIndex(p=>p.id===state.playerId);
+  state.mySymbol = (idx===0)?'X':'O';
+  myNameEl.textContent = state.playerName; myAvatarEl.textContent = state.playerName.charAt(0) || 'ل';
+  oppNameEl.textContent = (players[1] && players[1].name) ? players[1].name : 'بانتظار لاعب';
+  oppAvatarEl.textContent = (players[1] && players[1].name) ? players[1].name.charAt(0) : 'م';
+  rematchBtn.disabled = state.gameActive || !state.currentRoom;
+  renderBoard();
+  renderRoomsList();
+}
+
+/* قائمة الغرف */
+function createRoomElement(room){
+  const el = document.createElement('div'); el.className='room-item';
+  const meta = document.createElement('div'); meta.className='room-meta';
+  const name = document.createElement('div'); name.className='room-name'; name.textContent = `غرفة ${room.id}`;
+  const players = document.createElement('div'); players.className='room-players'; players.textContent = room.players.map(p=>p.name).join(' ؛ ');
+  meta.appendChild(name); meta.appendChild(players);
+  const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px'; right.style.alignItems='center';
+  const badge = document.createElement('div'); badge.className='badge ' + (room.players.length>=2 ? 'full' : 'open'); badge.textContent = room.players.length>=2 ? 'ممتلئة' : 'متاحة';
+  const joinBtn = document.createElement('button'); joinBtn.className='btn small'; joinBtn.textContent='انضم';
+  joinBtn.onclick = ()=>{ if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً.', true); return; } joinRoom(room.id); };
+  right.appendChild(badge); right.appendChild(joinBtn);
+  el.appendChild(meta); el.appendChild(right);
+  return el;
+}
+function renderRoomsList(){
+  roomsListEl.innerHTML = '';
+  const roomsArr = Object.values(state.rooms).sort((a,b)=>b.createdAt - a.createdAt);
+  roomsCountEl.textContent = roomsArr.length;
+  if (roomsArr.length===0){ const empty = document.createElement('div'); empty.className='alert'; empty.textContent='لا توجد غرف حالياً. أنشئ واحدة وشارك رمزها.'; roomsListEl.appendChild(empty); return; }
+  roomsArr.forEach(room=>roomsListEl.appendChild(createRoomElement(room)));
+}
+
+/* رسائل */
+function showMessage(text, isError=false){ messageEl.textContent = text; messageEl.style.color = isError ? 'var(--danger)' : 'var(--muted)'; }
+
+/* أحداث */
+createRoomBtn.addEventListener('click', ()=>{ if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً قبل إنشاء الغرفة.', true); return; } createRoom(); });
+joinRoomBtn.addEventListener('click', ()=>{ const id = joinRoomIdInput.value.trim().toUpperCase(); if (!id){ showMessage('أدخل رمز الغرفة للانضمام.', true); return; } loadRoomsFromStorage(); if (!state.rooms[id]){ showMessage('الغرفة غير موجودة.', true); return; } joinRoom(id); });
+playerNameInput.addEventListener('input', ()=>{ updatePlayerUI(); if (state.currentRoom){ const rid = state.currentRoom.id; const room = state.rooms[rid]; if (room){ const p = room.players.find(p=>p.id===state.playerId); if (p) p.name = state.playerName; state.rooms[rid] = room; saveRoomsToStorage(); updateRoomUI(); } } });
+rematchBtn.addEventListener('click', ()=>{ if (!state.currentRoom) return; const rid = state.currentRoom.id; const room = state.rooms[rid]; if (!room) return; room.rematchRequests = room.rematchRequests || {}; room.rematchRequests[state.playerId] = true; const players = room.players.map(p=>p.id); const both = players.every(pid => room.rematchRequests[pid]); if (both){ room.board = Array(9).fill(null); room.turn = 'X'; room.rematchRequests = {}; room.status = 'playing'; } state.rooms[rid] = room; saveRoomsToStorage(); openRoom(rid); });
+resetBtn.addEventListener('click', ()=>{ if (!state.currentRoom){ showMessage('لا توجد غرفة حالية لإعادة ضبطها.', true); return; } const rid = state.currentRoom.id; const room = state.rooms[rid]; if (!room) return; room.board = Array(9).fill(null); room.turn = 'X'; room.status = (room.players.length===2)?'playing':'open'; room.rematchRequests = {}; state.rooms[rid] = room; saveRoomsToStorage(); openRoom(rid); showMessage('تم إعادة ضبط الغرفة.'); });
+clearRoomsBtn.addEventListener('click', ()=>{ if (!confirm('هل تريد مسح جميع الغرف المحلية؟')) return; state.rooms = {}; saveRoomsToStorage(); renderRoomsList(); showMessage('تم مسح الغرف محلياً.'); });
+
+/* Dark mode */
+function setDarkMode(on){ if (on){ document.documentElement.classList.add('dark'); darkToggle.classList.add('on'); darkToggle.setAttribute('aria-checked','true'); localStorage.setItem('xo_dark','1'); } else { document.documentElement.classList.remove('dark'); darkToggle.classList.remove('on'); darkToggle.setAttribute('aria-checked','false'); localStorage.removeItem('xo_dark'); } }
+darkToggle.addEventListener('click', ()=> setDarkMode(!darkToggle.classList.contains('on')));
+if (localStorage.getItem('xo_dark')) setDarkMode(true);
+
+/* تهيئة */
+function init(){ initPlayer(); loadRoomsFromStorage(); renderBoard(); setInterval(()=>{ loadRoomsFromStorage(); if (state.currentRoom && state.rooms[state.currentRoom.id]) openRoom(state.currentRoom.id); }, 1500); showMessage('جاهز!'); }
+init();
+
+/* عند إغلاق الصفحة: مغادرة الغرفة محلياً */
+window.addEventListener('beforeunload', ()=>{
+  if (state.currentRoom){
+    const rid = state.currentRoom.id;
+    const room = state.rooms[rid];
+    if (room){
+      room.players = room.players.filter(p=>p.id!==state.playerId);
+      if (room.players.length===0){ delete state.rooms[rid]; } else { room.status='open'; room.board = Array(9).fill(null); room.turn='X'; room.rematchRequests = {}; state.rooms[rid]=room; }
+      saveRoomsToStorage();
+    }
+  }
+});
+</script>
+</body>
+</html>
