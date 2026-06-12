@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>لعبة XO أونلاين جماعية</title>
+<title>لعبة XO أونلاين جماعية مع دردشة</title>
 <style>
 /* ===========================
    متغيرات عامة (Light / Dark)
@@ -110,7 +110,6 @@ body{
   background:transparent;color:var(--text);border:1px solid rgba(15,23,42,0.1);
   box-shadow:none;
 }
-/* تنسيق زر تنظيف السيرفر ليكون واضحاً */
 .btn.danger-ghost {
   background: rgba(255, 107, 107, 0.08);
   color: var(--danger);
@@ -242,6 +241,7 @@ body{
   overflow-y:auto;
   padding-left:6px; 
   margin-top: 12px;
+  max-height: 200px;
 }
 
 .room-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px;border-radius:10px;background:var(--card);border:1px solid rgba(15,23,42,0.05)}
@@ -251,6 +251,38 @@ body{
 .badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;}
 .badge.open{background:#d1fae5;color:#065f46}
 .badge.full{background:#fee2e2;color:#7f1d1d}
+
+/* تنسيق شات الدردشة الجديد */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  background: rgba(15,23,42,0.02);
+  border: 1px solid rgba(15,23,42,0.05);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+}
+.chat-msg {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  max-width: 85%;
+  word-break: break-word;
+}
+.chat-msg.me {
+  background: var(--accent);
+  color: white;
+  align-self: flex-start;
+}
+.chat-msg.opp {
+  background: rgba(15,23,42,0.05);
+  color: var(--text);
+  align-self: flex-end;
+}
 
 .footer-actions{
   margin-top:16px;
@@ -276,7 +308,7 @@ body{
   .app{padding:12px; height: auto;}
   .main.card{padding:16px; height: auto;}
   .board-wrap{grid-template-columns:1fr;gap:16px;}
-  .info-panel{order:3; height: 350px;}
+  .info-panel{order:3; height: auto; min-height: 380px;}
   .game-panel{order:1; height: auto;}
   .board{max-width:100%;max-height: 420px;}
 }
@@ -359,6 +391,15 @@ body{
             <div style="font-size:13px;color:var(--muted)"><span id="roomsCount">0</span> غرف</div>
           </div>
           <div id="roomsList" class="rooms-list"></div>
+
+          <div id="chatSection" style="display:none; flex-direction:column; flex:1; min-height:0; margin-top: 16px; border-top: 1px solid rgba(15,23,42,0.06); padding-top: 12px;">
+            <div style="font-weight:700; margin-bottom:8px;">دردشة الغرفة 💬</div>
+            <div id="chatMessages" class="chat-messages"></div>
+            <div style="display:flex; gap:6px;">
+              <input id="chatInput" class="input" placeholder="اكتب رسالة للخصم..." style="flex:1; padding:8px;" />
+              <button id="sendChatBtn" class="btn small" style="padding:8px 12px;">إرسال</button>
+            </div>
+          </div>
         </div>
 
         <div class="footer-actions">
@@ -407,6 +448,12 @@ const resetBtn = document.getElementById('resetBtn');
 const clearRoomsBtn = document.getElementById('clearRoomsBtn');
 const turnTextEl = document.getElementById('turnText');
 const darkToggle = document.getElementById('darkToggle');
+
+/* عناصر الدردشة */
+const chatSection = document.getElementById('chatSection');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendChatBtn = document.getElementById('sendChatBtn');
 
 let state = {
   playerId: null,
@@ -547,19 +594,29 @@ function updateTurnUI(){
   if (state.gameActive) {
     turnTextEl.textContent = (state.turn === state.mySymbol) ? "دورك الآن! ⚡" : "دور الخصم..⏳";
   } else {
-    turnTextEl.textContent = (state.currentRoom.status === 'open') ? 'بانتظار لاعب آخر' : 'انتهت اللعبة';
+    if (state.winner) {
+      if (state.winner === 'draw') {
+        turnTextEl.textContent = 'تعادل! 🙌';
+      } else {
+        turnTextEl.textContent = (state.winner === state.mySymbol) ? "لقد فزت! 🎉" : "لقد خسرت.. 😢";
+      }
+    } else {
+      turnTextEl.textContent = (state.currentRoom.status === 'open') ? 'بانتظار لاعب آخر' : 'انتهت اللعبة';
+    }
   }
 }
 
 function updateRoomUI(){
   updatePlayerUI();
-  if (!state.currentRoom){ renderBoard(); return; }
+  if (!state.currentRoom){ renderBoard(); chatSection.style.display = 'none'; return; }
   const players = state.currentRoom.players || [];
   const idx = players.findIndex(p=>p.id===state.playerId);
   state.mySymbol = (idx===0)?'X':'O';
   
   const opp = players.find(p=>p.id!==state.playerId);
   if(opp){ opponentInfoEl.style.display = 'flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0); } else { opponentInfoEl.style.display = 'none'; }
+  
+  chatSection.style.display = 'flex'; // إظهار الشات عند الدخول للغرفة
   renderBoard();
 }
 
@@ -591,6 +648,43 @@ function renderRoomsList(){
   });
 }
 
+/* دالة عرض رسائل الشات */
+function renderChat(messagesObj) {
+  chatMessages.innerHTML = '';
+  if (!messagesObj) return;
+  const msgs = Object.values(messagesObj).sort((a, b) => a.timestamp - b.timestamp);
+  msgs.forEach(msg => {
+    const msgDiv = document.createElement('div');
+    if (msg.senderId === state.playerId) {
+      msgDiv.className = 'chat-msg me';
+      msgDiv.innerHTML = `<b>أنت:</b> ${msg.text}`;
+    } else {
+      msgDiv.className = 'chat-msg opp';
+      msgDiv.innerHTML = `<b>${msg.senderName}:</b> ${msg.text}`;
+    }
+    chatMessages.appendChild(msgDiv);
+  });
+  chatMessages.scrollTop = chatMessages.scrollHeight; // النزول التلقائي لآخر رسالة
+}
+
+/* دالة إرسال الرسالة إلى الـ Firebase */
+function sendChatMessage() {
+  const text = chatInput.value.trim();
+  if (!text || !state.currentRoom) return;
+  const msgId = 'm_' + Date.now();
+  const msgRef = ref(db, `rooms/${state.currentRoom.id}/messages/${msgId}`);
+  set(msgRef, {
+    senderName: state.playerName,
+    senderId: state.playerId,
+    text: text,
+    timestamp: Date.now()
+  });
+  chatInput.value = '';
+}
+
+sendChatBtn.addEventListener('click', sendChatMessage);
+chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
+
 function showMessage(text, isError=false){ messageEl.textContent = text; messageEl.style.color = isError ? 'var(--danger)' : 'var(--text)'; }
 
 createRoomBtn.addEventListener('click', ()=>{ 
@@ -607,13 +701,13 @@ joinRoomBtn.addEventListener('click', ()=>{
 resetBtn.addEventListener('click', ()=>{ 
   if (!state.currentRoom) return;
   const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
-  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing' });
+  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing', messages: null }); // مسح الشات القديم عند إعادة الضبط
 });
 
 rematchBtn.addEventListener('click', ()=>{ 
   if (!state.currentRoom) return;
   const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
-  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing' });
+  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing', messages: null });
 });
 
 clearRoomsBtn.addEventListener('click', ()=>{ 
@@ -641,13 +735,15 @@ function listenToFirebase(){
       
       updateRoomUI();
       evaluateGameLocal();
+      updateTurnUI();
+      renderChat(activeRoom.messages); // استدعاء وعرض الشات الحي
     }
   });
 }
 
 initPlayer(); 
 listenToFirebase();
-showMessage('متصل بالسيرفر بنجاح! جاهز للعب.');
+showMessage('متصل بالسيرفر بنجاح! جاهز للعب والدردشة.');
 </script>
 </body>
 </html>
