@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
@@ -20,11 +20,10 @@
   --radius:12px;
   --text:#0f172a;
 
-  --max-app-width:1100px;
-  --sidebar-width:320px;
-  --gap:18px;
-  --cell-gap:10px;
-  --ui-padding:18px;
+  --sidebar-width:340px;
+  --gap:20px;
+  --cell-gap:12px;
+  --ui-padding:24px;
 }
 
 :root.dark{
@@ -40,99 +39,122 @@
 }
 
 *{box-sizing:border-box}
-html,body{height:100%}
+html,body{height:100%; width:100%; margin:0; padding:0; overflow:hidden;}
 body{
-  margin:0;
   font-family:Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: linear-gradient(180deg,var(--bg), #e9eef8 60%);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   display:flex;
-  align-items:stretch;
-  min-height:100vh;
-  padding:20px;
+  direction: rtl;
 }
 
 .app{
-  margin:auto;
   width:100%;
-  max-width:var(--max-app-width);
-  display:grid;
-  grid-template-columns: 1fr minmax(260px, var(--sidebar-width));
-  gap:var(--gap);
+  height:100vh;
+  display:flex;
   padding:var(--ui-padding);
 }
 
-.card{
+.main.card{
   background:var(--card);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
-  padding:14px;
+  padding:24px;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
 
 .header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
-  margin-bottom:8px;
+  gap:20px;
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+  padding-bottom: 16px;
+  flex-wrap: wrap;
 }
-.brand{display:flex;gap:12px;align-items:center}
+.brand{display:flex;gap:14px;align-items:center}
 .logo{
-  width:48px;height:48px;border-radius:10px;
+  width:52px;height:52px;border-radius:12px;
   background:linear-gradient(135deg,var(--accent),#4f46e5);
   display:flex;align-items:center;justify-content:center;color:white;font-weight:700;
   box-shadow:0 6px 18px rgba(79,70,229,0.18);
-  font-size:18px;
+  font-size:20px;
 }
-.title{font-size:clamp(16px,1.6vw,20px);font-weight:700}
-.subtitle{font-size:clamp(12px,1.2vw,14px);color:var(--muted)}
+.title{font-size:clamp(18px,1.8vw,22px);font-weight:700}
 
-.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.input, .btn, .select {
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.input, .btn {
   border-radius:10px;
-  padding:10px 12px;
-  border:1px solid rgba(15,23,42,0.06);
+  padding:10px 14px;
+  border:1px solid rgba(15,23,42,0.1);
   background:transparent;
   font-size:clamp(13px,1.2vw,15px);
   color:var(--text);
+  outline: none;
 }
+.input:focus{border-color: var(--accent);}
 .input::placeholder{color:var(--muted)}
 .btn{
   background:linear-gradient(90deg,var(--accent),#4f46e5);
   color:white;border:0;cursor:pointer;
   box-shadow:0 8px 20px rgba(79,70,229,0.12);
+  font-weight: 600;
 }
 .btn.ghost{
-  background:transparent;color:var(--text);border:1px solid rgba(15,23,42,0.06);
+  background:transparent;color:var(--text);border:1px solid rgba(15,23,42,0.1);
   box-shadow:none;
 }
-.small{padding:8px 10px;font-size:13px}
+/* تنسيق زر تنظيف السيرفر ليكون واضحاً */
+.btn.danger-ghost {
+  background: rgba(255, 107, 107, 0.08);
+  color: var(--danger);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  padding: 12px;
+  font-size: 14px;
+}
+.btn.danger-ghost:hover {
+  background: rgba(255, 107, 107, 0.15);
+}
+.small{padding:10px 14px;font-size:13px}
 
 .board-wrap{
-  display:flex;
+  display:grid;
+  grid-template-columns: 1fr var(--sidebar-width);
   gap:var(--gap);
-  align-items:flex-start;
-  flex-wrap:wrap;
+  flex: 1;
+  min-height: 0;
 }
 
 .game-panel{
-  flex:1 1 420px;
-  min-width:260px;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:16px;
+  background: rgba(15,23,42,0.01);
+  border:1px solid rgba(15,23,42,0.03);
+  padding: 20px;
+  border-radius: var(--radius);
+  height: 100%;
 }
 
 .info-panel{
-  width:var(--sidebar-width);
-  min-width:220px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(15,23,42,0.01);
+  border:1px solid rgba(15,23,42,0.03);
+  padding: 20px;
+  border-radius: var(--radius);
+  height: 100%;
 }
 
 .board{
   width:100%;
-  max-width:min(560px, calc(100vw - var(--sidebar-width) - 80px));
+  max-width:min(460px, calc(100vh - 360px));
   aspect-ratio:1/1;
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -146,24 +168,25 @@ body{
 }
 
 .cell{
-  background:transparent;
-  border-radius:10px;
+  background:var(--card);
+  border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:clamp(28px, 6.5vmin, 56px);
+  font-size:clamp(32px, 6vmin, 60px);
   font-weight:800;
   color:var(--text);
   cursor:pointer;
-  transition:transform .12s ease, background .12s ease;
+  transition:transform .12s ease, background .12s ease, box-shadow .12s ease;
   user-select:none;
   -webkit-user-select:none;
   min-height:0;
   aspect-ratio:1/1;
   touch-action:manipulation;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 10px rgba(15,23,42,0.03);
 }
-.cell:hover{transform:translateY(-4px)}
+.cell:hover{transform:translateY(-4px); box-shadow: var(--shadow);}
 .cell.disabled{cursor:not-allowed;opacity:0.6;transform:none}
 .cell.x{color:var(--accent)}
 .cell.o{color:var(--accent-2)}
@@ -173,78 +196,114 @@ body{
   align-items:center;
   gap:12px;
   justify-content:space-between;
-  margin-bottom:6px;
 }
-.players{display:flex;gap:8px;align-items:center}
+.players{display:flex;gap:12px;align-items:center}
 .player{
   display:flex;
-  gap:8px;
+  gap:10px;
   align-items:center;
-  padding:8px 10px;
+  padding:8px 12px;
   border-radius:10px;
-  background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border:1px solid rgba(15,23,42,0.03);
+  background:var(--card);
+  border:1px solid rgba(15,23,42,0.05);
 }
 .avatar{
-  width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#fff,rgba(255,255,255,0.02));
-  display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text);
+  width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#4f46e5);
+  display:flex;align-items:center;justify-content:center;font-weight:700;color:white;
 }
-.turn{font-weight:700;color:var(--muted)}
+#opponentInfo .avatar{background:linear-gradient(135deg,var(--accent-2),#00b894);}
+.turn{font-weight:700;color:var(--muted);font-size:16px}
 
-.rooms-list{display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto;padding-right:6px}
-.room-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(15,23,42,0.03)}
+.game-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+}
+.controls-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.rooms-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex: 1;
+  overflow-y:auto;
+  padding-left:6px; 
+  margin-top: 12px;
+}
+
+.room-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px;border-radius:10px;background:var(--card);border:1px solid rgba(15,23,42,0.05)}
 .room-meta{display:flex;gap:8px;align-items:center}
 .room-name{font-weight:700}
 .room-players{font-size:13px;color:var(--muted)}
-.badge{padding:6px 8px;border-radius:999px;font-size:12px;background:rgba(0,0,0,0.04)}
-.badge.open{background:linear-gradient(90deg,#d1fae5,#bbf7d0);color:#065f46}
-.badge.full{background:linear-gradient(90deg,#fee2e2,#fecaca);color:#7f1d1d}
+.badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;}
+.badge.open{background:#d1fae5;color:#065f46}
+.badge.full{background:#fee2e2;color:#7f1d1d}
 
-.footer-actions{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:8px}
-.alert{padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(15,23,42,0.03);color:var(--muted)}
-
-.switch{display:inline-flex;align-items:center;gap:8px}
-.toggle{width:44px;height:26px;border-radius:999px;background:rgba(15,23,42,0.06);position:relative;cursor:pointer}
-.toggle .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:white;transition:left .18s ease;box-shadow:0 4px 12px rgba(2,6,23,0.12)}
-.toggle.on{background:linear-gradient(90deg,var(--accent),#4f46e5)}
-.toggle.on .knob{left:21px}
-
-@media (max-width:980px){
-  body{padding:12px}
-  .app{grid-template-columns:1fr;gap:12px;padding:12px;}
-  .info-panel{width:100%;order:3;}
-  .game-panel{order:1}
-  .board{max-width:100%;padding:12px;}
-  .controls{gap:8px}
+.footer-actions{
+  margin-top:16px;
+  border-top:1px solid rgba(15,23,42,0.06);
+  padding-top:16px;
+  width: 100%;
+}
+.footer-actions .btn {
+  width: 100%;
+  text-align: center;
 }
 
-@media (max-width:520px){
-  .header{flex-direction:column;align-items:flex-start;gap:8px}
-  .controls{width:100%;justify-content:flex-start}
-  .input{flex:1 1 auto;min-width:120px}
-  .btn.small{padding:10px 12px}
-  .cell{font-size:clamp(26px, 9vmin, 48px)}
-  .room-item{padding:12px}
+.alert{padding:12px;border-radius:10px;background:var(--card);border:1px solid rgba(15,23,42,0.05);color:var(--text);font-weight:500}
+
+.switch{display:inline-flex;align-items:center;gap:8px}
+.toggle{width:46px;height:26px;border-radius:999px;background:rgba(15,23,42,0.1);position:relative;cursor:pointer}
+.toggle .knob{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:white;transition:right .18s ease;box-shadow:0 4px 12px rgba(2,6,23,0.15)}
+.toggle.on{background:linear-gradient(90deg,var(--accent),#4f46e5)}
+.toggle.on .knob{right:23px}
+
+@media (max-width:980px){
+  body{overflow: auto;}
+  .app{padding:12px; height: auto;}
+  .main.card{padding:16px; height: auto;}
+  .board-wrap{grid-template-columns:1fr;gap:16px;}
+  .info-panel{order:3; height: 350px;}
+  .game-panel{order:1; height: auto;}
+  .board{max-width:100%;max-height: 420px;}
+}
+
+@media (max-width:650px) {
+  .header{flex-direction:column;align-items:stretch;}
+  .controls{justify-content:flex-start}
+  .input{flex:1 1 auto;}
 }
 </style>
 </head>
 <body>
 
 <div class="app" id="app">
-  <div class="main card" style="display:flex;flex-direction:column;gap:12px">
+  <div class="main card">
     <div class="header">
       <div class="brand">
         <div class="logo">XO</div>
         <div>
           <div class="title">لعبة XO أونلاين جماعية</div>
-          <div class="subtitle">مزامنة فورية عبر سحابة Firebase الخاصة بك</div>
         </div>
       </div>
 
       <div class="controls">
         <input id="playerName" class="input" placeholder="اسمك (مثال: حسين)" maxlength="18" />
         <button id="createRoomBtn" class="btn small">إنشاء غرفة جديدة</button>
-        <input id="joinRoomId" class="input" placeholder="رمز الغرفة" style="width:170px" />
+        <input id="joinRoomId" class="input" placeholder="رمز الغرفة" style="width:130px" />
         <button id="joinRoomBtn" class="btn ghost small">انضم</button>
         <div class="switch" title="تبديل الوضع الداكن">
           <div id="darkToggle" class="toggle" role="switch" aria-checked="false">
@@ -255,7 +314,7 @@ body{
     </div>
 
     <div class="board-wrap">
-      <div class="game-panel card">
+      <div class="game-panel">
         <div class="status">
           <div class="players">
             <div class="player" id="playerInfo">
@@ -274,36 +333,36 @@ body{
             </div>
           </div>
 
-          <div style="text-align:right">
+          <div style="text-align:left">
             <div class="turn" id="turnText">غير متصل</div>
-            <div style="font-size:12px;color:var(--muted)">حالة الغرفة</div>
+            <div style="font-size:12px;color:var(--muted); text-align:left;">حالة الغرفة</div>
           </div>
         </div>
 
         <div id="board" class="board"></div>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+        <div class="game-footer-row">
           <div class="controls-row">
-            <button id="resetBtn" class="btn ghost small">إعادة ضبط الغرفة</button>
             <button id="rematchBtn" class="btn small" disabled>إعادة اللعب</button>
+            <button id="resetBtn" class="btn ghost small">إعادة ضبط الغرفة</button>
           </div>
           <div style="font-size:13px;color:var(--muted)"><span id="roomIdDisplay">غير متصل</span></div>
         </div>
 
-        <div id="message" class="alert" style="margin-top:12px">مرحباً! أنشئ غرفة أو انضم للبدء أونلاين.</div>
+        <div id="message" class="alert">مرحباً! أنشئ غرفة أو انضم للبدء أونلاين.</div>
       </div>
 
-      <div class="info-panel card sidebar">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div style="font-weight:700">قائمة الغرف أونلاين</div>
-          <div style="font-size:13px;color:var(--muted)"><span id="roomsCount">0</span></div>
+      <div class="info-panel sidebar">
+        <div class="sidebar-content">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:700">قائمة الغرف أونلاين</div>
+            <div style="font-size:13px;color:var(--muted)"><span id="roomsCount">0</span> غرف</div>
+          </div>
+          <div id="roomsList" class="rooms-list"></div>
         </div>
 
-        <div id="roomsList" class="rooms-list"></div>
-
         <div class="footer-actions">
-          <div style="font-size:13px;color:var(--muted)">مزامنة حية من السيرفر السحابي</div>
-          <button id="clearRoomsBtn" class="btn ghost small">تنظيف غرف السيرفر</button>
+          <button id="clearRoomsBtn" class="btn danger-ghost">تنظيف السيرفر</button>
         </div>
       </div>
     </div>
@@ -381,7 +440,6 @@ function updatePlayerUI(){
   localStorage.setItem('xo_player_name', name);
 }
 
-/* إصلاح دالة إنشاء الغرفة */
 function createRoom(){
   const id = genId();
   const roomRef = ref(db, 'rooms/' + id);
@@ -552,19 +610,23 @@ resetBtn.addEventListener('click', ()=>{
   update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing' });
 });
 
+rematchBtn.addEventListener('click', ()=>{ 
+  if (!state.currentRoom) return;
+  const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
+  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing' });
+});
+
 clearRoomsBtn.addEventListener('click', ()=>{ 
-  if (!confirm('هل تريد مسح جميع الغرف الحالية؟')) return;
+  if (!confirm('هل تريد مسح جميع الغرف الحالية من السيرفر السحابي؟')) return;
   remove(ref(db, 'rooms'));
   state.currentRoom = null;
   updateRoomUI();
 });
 
-/* تفعيل وضع الـ Dark Mode */
 function setDarkMode(on){ if (on){ document.documentElement.classList.add('dark'); darkToggle.classList.add('on'); localStorage.setItem('xo_dark','1'); } else { document.documentElement.classList.remove('dark'); darkToggle.classList.remove('on'); localStorage.removeItem('xo_dark'); } }
 darkToggle.addEventListener('click', ()=> setDarkMode(!darkToggle.classList.contains('on')));
 if (localStorage.getItem('xo_dark')) setDarkMode(true);
 
-/* الاستماع للتغييرات الفورية */
 function listenToFirebase(){
   onValue(ref(db, 'rooms'), (snapshot) => {
     state.rooms = snapshot.val() || {};
