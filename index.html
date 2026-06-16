@@ -376,6 +376,7 @@ body{
         <div class="game-footer-row">
           <div class="controls-row">
             <button id="rematchBtn" class="btn small" disabled>إعادة اللعب</button>
+            <button id="leaveRoomBtn" class="btn danger-ghost small" style="display:none; padding:10px 14px;">الخروج من الغرفة</button>
             <button id="resetBtn" class="btn ghost small">إعادة ضبط الغرفة</button>
           </div>
           <div style="font-size:13px;color:var(--muted)"><span id="roomIdDisplay">غير متصل</span></div>
@@ -444,6 +445,7 @@ const oppNameEl = document.getElementById('oppName');
 const oppAvatarEl = document.getElementById('oppAvatar');
 const opponentInfoEl = document.getElementById('opponentInfo');
 const rematchBtn = document.getElementById('rematchBtn');
+const leaveRoomBtn = document.getElementById('leaveRoomBtn');
 const resetBtn = document.getElementById('resetBtn');
 const clearRoomsBtn = document.getElementById('clearRoomsBtn');
 const turnTextEl = document.getElementById('turnText');
@@ -498,7 +500,7 @@ function createRoom(){
     board: Array(9).fill(""), 
     turn: 'X'
   };
-  
+   
   set(roomRef, roomData).then(() => {
     joinRoom(id);
   }).catch((err) => {
@@ -608,7 +610,12 @@ function updateTurnUI(){
 
 function updateRoomUI(){
   updatePlayerUI();
-  if (!state.currentRoom){ renderBoard(); chatSection.style.display = 'none'; return; }
+  if (!state.currentRoom){ 
+    renderBoard(); 
+    chatSection.style.display = 'none'; 
+    leaveRoomBtn.style.display = 'none';
+    return; 
+  }
   const players = state.currentRoom.players || [];
   const idx = players.findIndex(p=>p.id===state.playerId);
   state.mySymbol = (idx===0)?'X':'O';
@@ -617,6 +624,7 @@ function updateRoomUI(){
   if(opp){ opponentInfoEl.style.display = 'flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0); } else { opponentInfoEl.style.display = 'none'; }
   
   chatSection.style.display = 'flex'; // إظهار الشات عند الدخول للغرفة
+  leaveRoomBtn.style.display = 'inline-block'; // إظهار زر الخروج
   renderBoard();
 }
 
@@ -701,20 +709,44 @@ joinRoomBtn.addEventListener('click', ()=>{
 resetBtn.addEventListener('click', ()=>{ 
   if (!state.currentRoom) return;
   const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
-  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing', messages: null }); // مسح الشات القديم عند إعادة الضبط
+  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing', messages: null, rematch: null });
 });
 
+/* منطق زر الخروج الجديد */
+leaveRoomBtn.addEventListener('click', () => {
+  if (!state.currentRoom) return;
+  const roomId = state.currentRoom.id;
+  const roomRef = ref(db, 'rooms/' + roomId);
+  
+  let updatedPlayers = (state.currentRoom.players || []).filter(p => p.id !== state.playerId);
+  
+  if (updatedPlayers.length === 0) {
+    remove(roomRef);
+  } else {
+    update(roomRef, {
+      players: updatedPlayers,
+      status: 'open',
+      board: Array(9).fill(""),
+      rematch: null
+    });
+  }
+  
+  state.currentRoom = null;
+  state.board = Array(9).fill("");
+  state.mySymbol = null;
+  state.turn = null;
+  state.gameActive = false;
+  state.winner = null;
+  
+  updateRoomUI();
+  showMessage('لقد خرجت من الغرفة والمباراة الحالية.');
+});
+
+/* تعديل زر إعادة اللعب لطلب الموافقة */
 rematchBtn.addEventListener('click', ()=>{ 
   if (!state.currentRoom) return;
-  const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
-  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing', messages: null });
-});
-
-clearRoomsBtn.addEventListener('click', ()=>{ 
-  if (!confirm('هل تريد مسح جميع الغرف الحالية من السيرفر السحابي؟')) return;
-  remove(ref(db, 'rooms'));
-  state.currentRoom = null;
-  updateRoomUI();
+  const rematchVoteRef = ref(db, `rooms/${state.currentRoom.id}/rematch/${state.playerId}`);
+  set(rematchVoteRef, true);
 });
 
 function setDarkMode(on){ if (on){ document.documentElement.classList.add('dark'); darkToggle.classList.add('on'); localStorage.setItem('xo_dark','1'); } else { document.documentElement.classList.remove('dark'); darkToggle.classList.remove('on'); localStorage.removeItem('xo_dark'); } }
@@ -735,8 +767,34 @@ function listenToFirebase(){
       
       updateRoomUI();
       evaluateGameLocal();
+      
+      // منطق فحص حالة طلبات إعادة اللعب
+      if (activeRoom.rematch) {
+        const voters = Object.keys(activeRoom.rematch);
+        const totalPlayers = activeRoom.players ? activeRoom.players.length : 0;
+        
+        if (voters.length >= 2 && totalPlayers === 2) {
+          // كلا اللاعبين وافقا، ابدأ جولة جديدة فوراً
+          const roomRef = ref(db, 'rooms/' + activeRoom.id);
+          update(roomRef, {
+            board: Array(9).fill(""),
+            turn: 'X',
+            status: 'playing',
+            messages: null,
+            rematch: null
+          });
+        } else if (voters.length === 1) {
+          // أحد اللاعبين ضغط فقط
+          if (voters[0] === state.playerId) {
+            showMessage('تم إرسال طلبك، يرجى انتظار الخصم لضغط زر إعادة اللعب... ⏳');
+          } else {
+            showMessage('الخصم يطلب جولة جديدة! يرجى ضغط زر إعادة اللعب للمواجهة ⚔️');
+          }
+        }
+      }
+      
       updateTurnUI();
-      renderChat(activeRoom.messages); // استدعاء وعرض الشات الحي
+      renderChat(activeRoom.messages); 
     }
   });
 }
