@@ -712,6 +712,27 @@ resetBtn.addEventListener('click', ()=>{
   update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing', messages: null, rematch: null });
 });
 
+/* وظيفة زر تنظيف السيرفر */
+clearRoomsBtn.addEventListener('click', () => {
+  if (confirm('هل أنت متأكد من رغبتك في حذف جميع الغرف؟ سيؤدي هذا إلى إنهاء جميع الألعاب الحالية للجميع.')) {
+    const roomsRef = ref(db, 'rooms');
+    
+    remove(roomsRef).then(() => {
+      showMessage('تم تنظيف السيرفر وحذف جميع الغرف بنجاح!');
+      state.currentRoom = null;
+      state.board = Array(9).fill("");
+      state.mySymbol = null;
+      state.turn = null;
+      state.gameActive = false;
+      state.winner = null;
+      updateRoomUI();
+    }).catch((error) => {
+      showMessage('حدث خطأ أثناء تنظيف السيرفر، تأكد من صلاحيات Firebase.', true);
+      console.error(error);
+    });
+  }
+});
+
 /* منطق زر الخروج الجديد */
 leaveRoomBtn.addEventListener('click', () => {
   if (!state.currentRoom) return;
