@@ -420,15 +420,16 @@ body{
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, set, get, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+// إعدادات الـ Firebase الجديدة الخاصة بمشروعك
 const firebaseConfig = {
-  apiKey: "AIzaSyAO0ji6BcUlnkiewRjayAU6rDz2QDla9zY",
-  authDomain: "xo-online-94196.firebaseapp.com",
-  databaseURL: "https://xo-online-94196-default-rtdb.firebaseio.com", 
-  projectId: "xo-online-94196",
-  storageBucket: "xo-online-94196.firebasestorage.app",
-  messagingSenderId: "314225204059",
-  appId: "1:314225204059:web:9310352e417b8321ca987e",
-  measurementId: "G-7WKWV7WQ9R"
+  apiKey: "AIzaSyCdW9WBkJ_7zhl4eIvHWF5ESGbks01p_cs",
+  authDomain: "x----o-a594a.firebaseapp.com",
+  databaseURL: "https://x----o-a594a-default-rtdb.firebaseio.com", // رابط الـ Realtime Database الافتراضي الخاص بك
+  projectId: "x----o-a594a",
+  storageBucket: "x----o-a594a.firebasestorage.app",
+  messagingSenderId: "543948407573",
+  appId: "1:543948407573:web:6d79438285bc6c3db05f1c",
+  measurementId: "G-R8478KLSSY"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -630,8 +631,8 @@ function updateRoomUI(){
   const opp = players.find(p=>p.id!==state.playerId);
   if(opp){ opponentInfoEl.style.display = 'flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0); } else { opponentInfoEl.style.display = 'none'; }
   
-  chatSection.style.display = 'flex'; // إظهار الشات عند الدخول للغرفة
-  leaveRoomBtn.style.display = 'inline-block'; // إظهار زر الخروج
+  chatSection.style.display = 'flex'; 
+  leaveRoomBtn.style.display = 'inline-block'; 
   renderBoard();
 }
 
@@ -679,7 +680,7 @@ function renderChat(messagesObj) {
     }
     chatMessages.appendChild(msgDiv);
   });
-  chatMessages.scrollTop = chatMessages.scrollHeight; // النزول التلقائي لآخر رسالة
+  chatMessages.scrollTop = chatMessages.scrollHeight; 
 }
 
 /* دالة إرسال الرسالة إلى الـ Firebase */
@@ -740,7 +741,7 @@ clearRoomsBtn.addEventListener('click', () => {
   }
 });
 
-/* منطق زر الخروج الجديد */
+/* منطق زر الخروج */
 leaveRoomBtn.addEventListener('click', () => {
   if (!state.currentRoom) return;
   const roomId = state.currentRoom.id;
@@ -770,7 +771,7 @@ leaveRoomBtn.addEventListener('click', () => {
   showMessage('لقد خرجت من الغرفة والمباراة الحالية.');
 });
 
-/* تعديل زر إعادة اللعب لطلب الموافقة */
+/* زر إعادة اللعب */
 rematchBtn.addEventListener('click', ()=>{ 
   if (!state.currentRoom) return;
   const rematchVoteRef = ref(db, `rooms/${state.currentRoom.id}/rematch/${state.playerId}`);
@@ -802,7 +803,6 @@ function listenToFirebase(){
         const totalPlayers = activeRoom.players ? activeRoom.players.length : 0;
         
         if (voters.length >= 2 && totalPlayers === 2) {
-          // كلا اللاعبين وافقا، ابدأ جولة جديدة فوراً
           const roomRef = ref(db, 'rooms/' + activeRoom.id);
           update(roomRef, {
             board: Array(9).fill(""),
@@ -812,7 +812,6 @@ function listenToFirebase(){
             rematch: null
           });
         } else if (voters.length === 1) {
-          // أحد اللاعبين ضغط فقط
           if (voters[0] === state.playerId) {
             showMessage('تم إرسال طلبك، يرجى انتظار الخصم لضغط زر إعادة اللعب... ⏳');
           } else {
@@ -825,7 +824,6 @@ function listenToFirebase(){
       renderChat(activeRoom.messages); 
     }
   }, (error) => {
-    // معالجة الخطأ برمجياً عند فشل الاتصال بقواعد البيانات
     showMessage("حدث خطأ في الاتصال بقاعدة البيانات. تأكد من تفعيل قواعد الحماية (Rules) في Firebase.", true);
     console.error("Firebase Database Error: ", error);
   });
