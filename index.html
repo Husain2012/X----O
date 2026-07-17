@@ -509,7 +509,7 @@ function createRoom(){
   set(roomRef, roomData).then(() => {
     joinRoom(id);
   }).catch((err) => {
-    showMessage("فشل الاتصال بقاعدة البيانات. تأكد من تفعيل قواعد الحماية (Rules).", true);
+    showMessage("فشل الاتصال بقاعدة البيانات. تأكد من تفعيل قواعد الحماية (Rules) أولاً في منصة Firebase.", true);
   });
 }
 
@@ -530,6 +530,8 @@ function joinRoom(id){
     }
     state.currentRoom = room;
     updateRoomUI();
+  }).catch((err) => {
+    showMessage("حدث خطأ أثناء محاولة الانضمام. يرجى مراجعة قواعد Firebase.", true);
   });
 }
 
@@ -822,6 +824,10 @@ function listenToFirebase(){
       updateTurnUI();
       renderChat(activeRoom.messages); 
     }
+  }, (error) => {
+    // معالجة الخطأ برمجياً عند فشل الاتصال بقواعد البيانات
+    showMessage("حدث خطأ في الاتصال بقاعدة البيانات. تأكد من تفعيل قواعد الحماية (Rules) في Firebase.", true);
+    console.error("Firebase Database Error: ", error);
   });
 }
 
