@@ -11,184 +11,184 @@
 
 <style>
 /* ===========================
-   متغيرات عامة (Light / Dark)
-   =========================== */
+   متغيرات عامة (Light / Dark)
+   =========================== */
 :root{
-  --bg:#f5f7fb;
-  --card:#ffffff;
-  --muted:#6b7280;
-  --accent:#6c5ce7;
-  --accent-2:#00b894;
-  --danger:#ff6b6b;
-  --glass: rgba(255,255,255,0.6);
-  --shadow: 0 6px 18px rgba(15,23,42,0.08);
-  --radius:12px;
-  --text:#0f172a;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#6c5ce7;
+  --accent-2:#00b894;
+  --danger:#ff6b6b;
+  --glass: rgba(255,255,255,0.6);
+  --shadow: 0 6px 18px rgba(15,23,42,0.08);
+  --radius:12px;
+  --text:#0f172a;
 
-  --sidebar-width:340px;
-  --gap:20px;
-  --cell-gap:12px;
-  --ui-padding:24px;
+  --sidebar-width:340px;
+  --gap:20px;
+  --cell-gap:12px;
+  --ui-padding:24px;
 }
 
 :root.dark{
-  --bg:#0b1020;
-  --card:#0f1726;
-  --muted:#9aa4b2;
-  --accent:#7c5cff;
-  --accent-2:#00d28a;
-  --danger:#ff7b7b;
-  --glass: rgba(255,255,255,0.03);
-  --shadow: 0 8px 30px rgba(2,6,23,0.6);
-  --text:#e6eef8;
+  --bg:#0b1020;
+  --card:#0f1726;
+  --muted:#9aa4b2;
+  --accent:#7c5cff;
+  --accent-2:#00d28a;
+  --danger:#ff7b7b;
+  --glass: rgba(255,255,255,0.03);
+  --shadow: 0 8px 30px rgba(2,6,23,0.6);
+  --text:#e6eef8;
 }
 
 *{box-sizing:border-box}
 html,body{height:100%; width:100%; margin:0; padding:0; overflow:hidden;}
 body{
-  font-family:Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: linear-gradient(180deg,var(--bg), #e9eef8 60%);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  display:flex;
-  direction: rtl;
+  font-family:Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(180deg,var(--bg), #e9eef8 60%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  direction: rtl;
 }
 
 .app{
-  width:100%;
-  height:100vh;
-  display:flex;
-  padding:var(--ui-padding);
+  width:100%;
+  height:100vh;
+  display:flex;
+  padding:var(--ui-padding);
 }
 
 .main.card{
-  background:var(--card);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:24px;
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:24px;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
 
 .header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  border-bottom: 1px solid rgba(15,23,42,0.06);
-  padding-bottom: 16px;
-  flex-wrap: wrap;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+  padding-bottom: 16px;
+  flex-wrap: wrap;
 }
 .brand{display:flex;gap:14px;align-items:center}
 .logo{
-  width:52px;height:52px;border-radius:12px;
-  background:linear-gradient(135deg,var(--accent),#4f46e5);
-  display:flex;align-items:center;justify-content:center;color:white;font-weight:700;
-  box-shadow:0 6px 18px rgba(79,70,229,0.18);
-  font-size:20px;
+  width:52px;height:52px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),#4f46e5);
+  display:flex;align-items:center;justify-content:center;color:white;font-weight:700;
+  box-shadow:0 6px 18px rgba(79,70,229,0.18);
+  font-size:20px;
 }
 .title{font-size:clamp(18px,1.8vw,22px);font-weight:700}
 
 .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .input, .btn {
-  border-radius:10px;
-  padding:10px 14px;
-  border:1px solid rgba(15,23,42,0.1);
-  background:transparent;
-  font-size:clamp(13px,1.2vw,15px);
-  color:var(--text);
-  outline: none;
+  border-radius:10px;
+  padding:10px 14px;
+  border:1px solid rgba(15,23,42,0.1);
+  background:transparent;
+  font-size:clamp(13px,1.2vw,15px);
+  color:var(--text);
+  outline: none;
 }
 .input:focus{border-color: var(--accent);}
 .input::placeholder{color:var(--muted)}
 .btn{
-  background:linear-gradient(90deg,var(--accent),#4f46e5);
-  color:white;border:0;cursor:pointer;
-  box-shadow:0 8px 20px rgba(79,70,229,0.12);
-  font-weight: 600;
+  background:linear-gradient(90deg,var(--accent),#4f46e5);
+  color:white;border:0;cursor:pointer;
+  box-shadow:0 8px 20px rgba(79,70,229,0.12);
+  font-weight: 600;
 }
 .btn.ghost{
-  background:transparent;color:var(--text);border:1px solid rgba(15,23,42,0.1);
-  box-shadow:none;
+  background:transparent;color:var(--text);border:1px solid rgba(15,23,42,0.1);
+  box-shadow:none;
 }
 .btn.danger-ghost {
-  background: rgba(255, 107, 107, 0.08);
-  color: var(--danger);
-  border: 1px solid rgba(255, 107, 107, 0.3);
-  padding: 12px;
-  font-size: 14px;
+  background: rgba(255, 107, 107, 0.08);
+  color: var(--danger);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  padding: 12px;
+  font-size: 14px;
 }
 .btn.danger-ghost:hover {
-  background: rgba(255, 107, 107, 0.15);
+  background: rgba(255, 107, 107, 0.15);
 }
 .small{padding:10px 14px;font-size:13px}
 
 .board-wrap{
-  display:grid;
-  grid-template-columns: 1fr var(--sidebar-width);
-  gap:var(--gap);
-  flex: 1;
-  min-height: 0;
+  display:grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  gap:var(--gap);
+  flex: 1;
+  min-height: 0;
 }
 
 .game-panel{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  background: rgba(15,23,42,0.01);
-  border:1px solid rgba(15,23,42,0.03);
-  padding: 20px;
-  border-radius: var(--radius);
-  height: 100%;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  background: rgba(15,23,42,0.01);
+  border:1px solid rgba(15,23,42,0.03);
+  padding: 20px;
+  border-radius: var(--radius);
+  height: 100%;
 }
 
 .info-panel{
-  display: flex;
-  flex-direction: column;
-  background: rgba(15,23,42,0.01);
-  border:1px solid rgba(15,23,42,0.03);
-  padding: 20px;
-  border-radius: var(--radius);
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(15,23,42,0.01);
+  border:1px solid rgba(15,23,42,0.03);
+  padding: 20px;
+  border-radius: var(--radius);
+  height: 100%;
 }
 
 .board{
-  width:100%;
-  max-width:min(460px, calc(100vh - 360px));
-  aspect-ratio:1/1;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:var(--cell-gap);
-  padding:var(--cell-gap);
-  border-radius:14px;
-  background:linear-gradient(180deg,var(--glass), rgba(255,255,255,0.02));
-  border:1px solid rgba(15,23,42,0.04);
-  margin:auto;
-  position:relative;
+  width:100%;
+  max-width:min(460px, calc(100vh - 360px));
+  aspect-ratio:1/1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--cell-gap);
+  padding:var(--cell-gap);
+  border-radius:14px;
+  background:linear-gradient(180deg,var(--glass), rgba(255,255,255,0.02));
+  border:1px solid rgba(15,23,42,0.04);
+  margin:auto;
+  position:relative;
 }
 
 .cell{
-  background:var(--card);
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:clamp(32px, 6vmin, 60px);
-  font-weight:800;
-  color:var(--text);
-  cursor:pointer;
-  transition:transform .12s ease, background .12s ease, box-shadow .12s ease;
-  user-select:none;
-  -webkit-user-select:none;
-  min-height:0;
-  aspect-ratio:1/1;
-  touch-action:manipulation;
-  -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 4px 10px rgba(15,23,42,0.03);
+  background:var(--card);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:clamp(32px, 6vmin, 60px);
+  font-weight:800;
+  color:var(--text);
+  cursor:pointer;
+  transition:transform .12s ease, background .12s ease, box-shadow .12s ease;
+  user-select:none;
+  -webkit-user-select:none;
+  min-height:0;
+  aspect-ratio:1/1;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 10px rgba(15,23,42,0.03);
 }
 .cell:hover{transform:translateY(-4px); box-shadow: var(--shadow);}
 .cell.disabled{cursor:not-allowed;opacity:0.6;transform:none}
@@ -196,57 +196,57 @@ body{
 .cell.o{color:var(--accent-2)}
 
 .status{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  justify-content:space-between;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-content:space-between;
 }
 .players{display:flex;gap:12px;align-items:center}
 .player{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  padding:8px 12px;
-  border-radius:10px;
-  background:var(--card);
-  border:1px solid rgba(15,23,42,0.05);
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:8px 12px;
+  border-radius:10px;
+  background:var(--card);
+  border:1px solid rgba(15,23,42,0.05);
 }
 .avatar{
-  width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#4f46e5);
-  display:flex;align-items:center;justify-content:center;font-weight:700;color:white;
+  width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#4f46e5);
+  display:flex;align-items:center;justify-content:center;font-weight:700;color:white;
 }
 #opponentInfo .avatar{background:linear-gradient(135deg,var(--accent-2),#00b894);}
 .turn{font-weight:700;color:var(--muted);font-size:16px}
 
 .game-footer-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
 }
 .controls-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .sidebar-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 .rooms-list{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  flex: 1;
-  overflow-y:auto;
-  padding-left:6px; 
-  margin-top: 12px;
-  max-height: 200px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex: 1;
+  overflow-y:auto;
+  padding-left:6px; 
+  margin-top: 12px;
+  max-height: 200px;
 }
 
 .room-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px;border-radius:10px;background:var(--card);border:1px solid rgba(15,23,42,0.05)}
@@ -259,45 +259,45 @@ body{
 
 /* تنسيق شات الدردشة الجديد */
 .chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  background: rgba(15,23,42,0.02);
-  border: 1px solid rgba(15,23,42,0.05);
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 220px;
+  flex: 1;
+  overflow-y: auto;
+  background: rgba(15,23,42,0.02);
+  border: 1px solid rgba(15,23,42,0.05);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
 }
 .chat-msg {
-  font-size: 13px;
-  padding: 6px 12px;
-  border-radius: 10px;
-  max-width: 85%;
-  word-break: break-word;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  max-width: 85%;
+  word-break: break-word;
 }
 .chat-msg.me {
-  background: var(--accent);
-  color: white;
-  align-self: flex-start;
+  background: var(--accent);
+  color: white;
+  align-self: flex-start;
 }
 .chat-msg.opp {
-  background: rgba(15,23,42,0.05);
-  color: var(--text);
-  align-self: flex-end;
+  background: rgba(15,23,42,0.05);
+  color: var(--text);
+  align-self: flex-end;
 }
 
 .footer-actions{
-  margin-top:16px;
-  border-top:1px solid rgba(15,23,42,0.06);
-  padding-top:16px;
-  width: 100%;
+  margin-top:16px;
+  border-top:1px solid rgba(15,23,42,0.06);
+  padding-top:16px;
+  width: 100%;
 }
 .footer-actions .btn {
-  width: 100%;
-  text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .alert{padding:12px;border-radius:10px;background:var(--card);border:1px solid rgba(15,23,42,0.05);color:var(--text);font-weight:500}
@@ -309,127 +309,126 @@ body{
 .toggle.on .knob{right:23px}
 
 @media (max-width:980px){
-  body{overflow: auto;}
-  .app{padding:12px; height: auto;}
-  .main.card{padding:16px; height: auto;}
-  .board-wrap{grid-template-columns:1fr;gap:16px;}
-  .info-panel{order:3; height: auto; min-height: 380px;}
-  .game-panel{order:1; height: auto;}
-  .board{max-width:100%;max-height: 420px;}
+  body{overflow: auto;}
+  .app{padding:12px; height: auto;}
+  .main.card{padding:16px; height: auto;}
+  .board-wrap{grid-template-columns:1fr;gap:16px;}
+  .info-panel{order:3; height: auto; min-height: 380px;}
+  .game-panel{order:1; height: auto;}
+  .board{max-width:100%;max-height: 420px;}
 }
 
 @media (max-width:650px) {
-  .header{flex-direction:column;align-items:stretch;}
-  .controls{justify-content:flex-start}
-  .input{flex:1 1 auto;}
+  .header{flex-direction:column;align-items:stretch;}
+  .controls{justify-content:flex-start}
+  .input{flex:1 1 auto;}
 }
 </style>
 </head>
 <body>
 
 <div class="app" id="app">
-  <div class="main card">
-    <div class="header">
-      <div class="brand">
-        <div class="logo">XO</div>
-        <div>
-          <div class="title">لعبة XO أونلاين جماعية</div>
-        </div>
-      </div>
+  <div class="main card">
+    <div class="header">
+      <div class="brand">
+        <div class="logo">XO</div>
+        <div>
+          <div class="title">لعبة XO أونلاين جماعية</div>
+        </div>
+      </div>
 
-      <div class="controls">
-        <input id="playerName" class="input" placeholder="اسمك (مثال: حسين)" maxlength="18" />
-        <button id="createRoomBtn" class="btn small">إنشاء غرفة جديدة</button>
-        <input id="joinRoomId" class="input" placeholder="رمز الغرفة" style="width:130px" />
-        <button id="joinRoomBtn" class="btn ghost small">انضم</button>
-        <div class="switch" title="تبديل الوضع الداكن">
-          <div id="darkToggle" class="toggle" role="switch" aria-checked="false">
-            <div class="knob"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+      <div class="controls">
+        <input id="playerName" class="input" placeholder="اسمك (مثال: حسين)" maxlength="18" />
+        <button id="createRoomBtn" class="btn small">إنشاء غرفة جديدة</button>
+        <input id="joinRoomId" class="input" placeholder="رمز الغرفة" style="width:130px" />
+        <button id="joinRoomBtn" class="btn ghost small">انضم</button>
+        <div class="switch" title="تبديل الوضع الداكن">
+          <div id="darkToggle" class="toggle" role="switch" aria-checked="false">
+            <div class="knob"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class="board-wrap">
-      <div class="game-panel">
-        <div class="status">
-          <div class="players">
-            <div class="player" id="playerInfo">
-              <div class="avatar" id="myAvatar">ح</div>
-              <div>
-                <div id="myName" style="font-weight:700">غير مسجل</div>
-                <div style="font-size:12px;color:var(--muted)">أنت</div>
-              </div>
-            </div>
-            <div class="player" id="opponentInfo" style="display:none">
-              <div class="avatar" id="oppAvatar">م</div>
-              <div>
-                <div id="oppName" style="font-weight:700">لاعب آخر</div>
-                <div style="font-size:12px;color:var(--muted)">خصم</div>
-              </div>
-            </div>
-          </div>
+    <div class="board-wrap">
+      <div class="game-panel">
+        <div class="status">
+          <div class="players">
+            <div class="player" id="playerInfo">
+              <div class="avatar" id="myAvatar">ح</div>
+              <div>
+                <div id="myName" style="font-weight:700">غير مسجل</div>
+                <div style="font-size:12px;color:var(--muted)">أنت</div>
+              </div>
+            </div>
+            <div class="player" id="opponentInfo" style="display:none">
+              <div class="avatar" id="oppAvatar">م</div>
+              <div>
+                <div id="oppName" style="font-weight:700">لاعب آخر</div>
+                <div style="font-size:12px;color:var(--muted)">خصم</div>
+              </div>
+            </div>
+          </div>
 
-          <div style="text-align:left">
-            <div class="turn" id="turnText">غير متصل</div>
-            <div style="font-size:12px;color:var(--muted); text-align:left;">حالة الغرفة</div>
-          </div>
-        </div>
+          <div style="text-align:left">
+            <div class="turn" id="turnText">غير متصل</div>
+            <div style="font-size:12px;color:var(--muted); text-align:left;">حالة الغرفة</div>
+          </div>
+        </div>
 
-        <div id="board" class="board"></div>
+        <div id="board" class="board"></div>
 
-        <div class="game-footer-row">
-          <div class="controls-row">
-            <button id="rematchBtn" class="btn small" disabled>إعادة اللعب</button>
-            <button id="leaveRoomBtn" class="btn danger-ghost small" style="display:none; padding:10px 14px;">الخروج من الغرفة</button>
-            <button id="resetBtn" class="btn ghost small">إعادة ضبط الغرفة</button>
-          </div>
-          <div style="font-size:13px;color:var(--muted)"><span id="roomIdDisplay">غير متصل</span></div>
-        </div>
+        <div class="game-footer-row">
+          <div class="controls-row">
+            <button id="rematchBtn" class="btn small" disabled>إعادة اللعب</button>
+            <button id="leaveRoomBtn" class="btn danger-ghost small" style="display:none; padding:10px 14px;">الخروج من الغرفة</button>
+            <button id="resetBtn" class="btn ghost small">إعادة ضبط الغرفة</button>
+          </div>
+          <div style="font-size:13px;color:var(--muted)"><span id="roomIdDisplay">غير متصل</span></div>
+        </div>
 
-        <div id="message" class="alert">مرحباً! أنشئ غرفة أو انضم للبدء أونلاين.</div>
-      </div>
+        <div id="message" class="alert">مرحباً! أنشئ غرفة أو انضم للبدء أونلاين.</div>
+      </div>
 
-      <div class="info-panel sidebar">
-        <div class="sidebar-content">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div style="font-weight:700">قائمة الغرف أونلاين</div>
-            <div style="font-size:13px;color:var(--muted)"><span id="roomsCount">0</span> غرف</div>
-          </div>
-          <div id="roomsList" class="rooms-list"></div>
+      <div class="info-panel sidebar">
+        <div class="sidebar-content">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:700">قائمة الغرف أونلاين</div>
+            <div style="font-size:13px;color:var(--muted)"><span id="roomsCount">0</span> غرف</div>
+          </div>
+          <div id="roomsList" class="rooms-list"></div>
 
-          <div id="chatSection" style="display:none; flex-direction:column; flex:1; min-height:0; margin-top: 16px; border-top: 1px solid rgba(15,23,42,0.06); padding-top: 12px;">
-            <div style="font-weight:700; margin-bottom:8px;">دردشة الغرفة 💬</div>
-            <div id="chatMessages" class="chat-messages"></div>
-            <div style="display:flex; gap:6px;">
-              <input id="chatInput" class="input" placeholder="اكتب رسالة للخصم..." style="flex:1; padding:8px;" />
-              <button id="sendChatBtn" class="btn small" style="padding:8px 12px;">إرسال</button>
-            </div>
-          </div>
-        </div>
+          <div id="chatSection" style="display:none; flex-direction:column; flex:1; min-height:0; margin-top: 16px; border-top: 1px solid rgba(15,23,42,0.06); padding-top: 12px;">
+            <div style="font-weight:700; margin-bottom:8px;">دردشة الغرفة 💬</div>
+            <div id="chatMessages" class="chat-messages"></div>
+            <div style="display:flex; gap:6px;">
+              <input id="chatInput" class="input" placeholder="اكتب رسالة للخصم..." style="flex:1; padding:8px;" />
+              <button id="sendChatBtn" class="btn small" style="padding:8px 12px;">إرسال</button>
+            </div>
+          </div>
+        </div>
 
-        <div class="footer-actions">
-          <button id="clearRoomsBtn" class="btn danger-ghost">تنظيف السيرفر</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <div class="footer-actions">
+          <button id="clearRoomsBtn" class="btn danger-ghost">تنظيف السيرفر</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, set, get, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-// إعدادات الـ Firebase الجديدة الخاصة بمشروعك
 const firebaseConfig = {
-  apiKey: "AIzaSyCdW9WBkJ_7zhl4eIvHWF5ESGbks01p_cs",
-  authDomain: "x----o-a594a.firebaseapp.com",
-  databaseURL: "https://x----o-a594a-default-rtdb.firebaseio.com", // رابط الـ Realtime Database الافتراضي الخاص بك
-  projectId: "x----o-a594a",
-  storageBucket: "x----o-a594a.firebasestorage.app",
-  messagingSenderId: "543948407573",
-  appId: "1:543948407573:web:6d79438285bc6c3db05f1c",
-  measurementId: "G-R8478KLSSY"
+  apiKey: "AIzaSyAO0ji6BcUlnkiewRjayAU6rDz2QDla9zY",
+  authDomain: "xo-online-94196.firebaseapp.com",
+  databaseURL: "https://xo-online-94196-default-rtdb.firebaseio.com", 
+  projectId: "xo-online-94196",
+  storageBucket: "xo-online-94196.firebasestorage.app",
+  messagingSenderId: "314225204059",
+  appId: "1:314225204059:web:9310352e417b8321ca987e",
+  measurementId: "G-7WKWV7WQ9R"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -464,238 +463,236 @@ const chatInput = document.getElementById('chatInput');
 const sendChatBtn = document.getElementById('sendChatBtn');
 
 let state = {
-  playerId: null,
-  playerName: '',
-  currentRoom: null,
-  rooms: {},
-  board: Array(9).fill(null),
-  mySymbol: null,
-  turn: null,
-  gameActive: false,
-  winner: null
+  playerId: null,
+  playerName: '',
+  currentRoom: null,
+  rooms: {},
+  board: Array(9).fill(null),
+  mySymbol: null,
+  turn: null,
+  gameActive: false,
+  winner: null
 };
 
 function genId(){ return Math.random().toString(36).slice(2,6).toUpperCase(); }
 function genPlayerId(){ return 'p_' + Math.random().toString(36).slice(2,9); }
 
 function initPlayer(){
-  const savedName = localStorage.getItem('xo_player_name');
-  if (savedName) playerNameInput.value = savedName;
-  let pid = sessionStorage.getItem('xo_player_id');
-  if (!pid){ pid = genPlayerId(); sessionStorage.setItem('xo_player_id', pid); }
-  state.playerId = pid;
-  updatePlayerUI();
+  const savedName = localStorage.getItem('xo_player_name');
+  if (savedName) playerNameInput.value = savedName;
+  let pid = sessionStorage.getItem('xo_player_id');
+  if (!pid){ pid = genPlayerId(); sessionStorage.setItem('xo_player_id', pid); }
+  state.playerId = pid;
+  updatePlayerUI();
 }
 
 function updatePlayerUI(){
-  const name = playerNameInput.value.trim() || 'لاعب';
-  state.playerName = name;
-  myNameEl.textContent = name;
-  myAvatarEl.textContent = name.charAt(0) || 'ل';
-  localStorage.setItem('xo_player_name', name);
+  const name = playerNameInput.value.trim() || 'لاعب';
+  state.playerName = name;
+  myNameEl.textContent = name;
+  myAvatarEl.textContent = name.charAt(0) || 'ل';
+  localStorage.setItem('xo_player_name', name);
 }
 
 function createRoom(){
-  const id = genId();
-  const roomRef = ref(db, 'rooms/' + id);
-  const roomData = { 
-    id, 
-    createdAt: Date.now(), 
-    players:[{id: state.playerId, name: state.playerName}], 
-    status: 'open', 
-    board: Array(9).fill(""), 
-    turn: 'X'
-  };
-   
-  set(roomRef, roomData).then(() => {
-    joinRoom(id);
-  }).catch((err) => {
-    showMessage("فشل الاتصال بقاعدة البيانات. تأكد من تفعيل قواعد الحماية (Rules) أولاً في منصة Firebase.", true);
-  });
+  const id = genId();
+  const roomRef = ref(db, 'rooms/' + id);
+  const roomData = { 
+    id, 
+    createdAt: Date.now(), 
+    players:[{id: state.playerId, name: state.playerName}], 
+    status: 'open', 
+    board: Array(9).fill(""), 
+    turn: 'X'
+  };
+   
+  set(roomRef, roomData).then(() => {
+    joinRoom(id);
+  }).catch((err) => {
+    showMessage("فشل الاتصال بقاعدة البيانات. تأكد من تفعيل قواعد الحماية (Rules).", true);
+  });
 }
 
 function joinRoom(id){
-  const roomRef = ref(db, 'rooms/' + id);
-  get(roomRef).then((snapshot) => {
-    const room = snapshot.val();
-    if (!room){ showMessage('الغرفة غير موجودة.', true); return; }
-    if (!room.players) room.players = [];
-    
-    if (!room.players.find(p => p.id === state.playerId)){
-      if (room.players.length >= 2){ showMessage('الغرفة ممتلئة.', true); return; }
-      room.players.push({id: state.playerId, name: state.playerName});
-      room.status = 'playing';
-      room.board = Array(9).fill("");
-      room.turn = 'X';
-      set(roomRef, room);
-    }
-    state.currentRoom = room;
-    updateRoomUI();
-  }).catch((err) => {
-    showMessage("حدث خطأ أثناء محاولة الانضمام. يرجى مراجعة قواعد Firebase.", true);
-  });
+  const roomRef = ref(db, 'rooms/' + id);
+  get(roomRef).then((snapshot) => {
+    const room = snapshot.val();
+    if (!room){ showMessage('الغرفة غير موجودة.', true); return; }
+    if (!room.players) room.players = [];
+    
+    if (!room.players.find(p => p.id === state.playerId)){
+      if (room.players.length >= 2){ showMessage('الغرفة ممتلئة.', true); return; }
+      room.players.push({id: state.playerId, name: state.playerName});
+      room.status = 'playing';
+      room.board = Array(9).fill("");
+      room.turn = 'X';
+      set(roomRef, room);
+    }
+    state.currentRoom = room;
+    updateRoomUI();
+  });
 }
 
 function renderBoard(){
-  boardEl.innerHTML = '';
-  for (let i=0; i<9; i++){
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    cell.dataset.index = i;
-    const val = state.board[i];
-    if (val && val !== ""){ 
-      cell.textContent = val; 
-      cell.classList.add(val.toLowerCase()); 
-      cell.classList.add('disabled'); 
-    }
-    cell.onclick = onCellClick;
-    boardEl.appendChild(cell);
-  }
-  updateTurnUI();
+  boardEl.innerHTML = '';
+  for (let i=0; i<9; i++){
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.dataset.index = i;
+    const val = state.board[i];
+    if (val && val !== ""){ 
+      cell.textContent = val; 
+      cell.classList.add(val.toLowerCase()); 
+      cell.classList.add('disabled'); 
+    }
+    cell.onclick = onCellClick;
+    boardEl.appendChild(cell);
+  }
+  updateTurnUI();
 }
 
 function onCellClick(e){
-  const idx = Number(e.currentTarget.dataset.index);
-  if (!state.currentRoom){ showMessage('انضم إلى غرفة أولاً.', true); return; }
-  if (!state.gameActive){ showMessage('اللعبة انتهت أو لم تبدأ بعد.', true); return; }
-  if (state.turn !== state.mySymbol){ showMessage('ليس دورك الآن!', true); return; }
-  if (state.board[idx] && state.board[idx] !== ""){ return; }
-  
-  state.board[idx] = state.mySymbol;
-  const nextTurn = (state.turn === 'X') ? 'O' : 'X';
-  
-  const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
-  update(roomRef, {
-    board: state.board,
-    turn: nextTurn
-  });
+  const idx = Number(e.currentTarget.dataset.index);
+  if (!state.currentRoom){ showMessage('انضم إلى غرفة أولاً.', true); return; }
+  if (!state.gameActive){ showMessage('اللعبة انتهت أو لم تبدأ بعد.', true); return; }
+  if (state.turn !== state.mySymbol){ showMessage('ليس دورك الآن!', true); return; }
+  if (state.board[idx] && state.board[idx] !== ""){ return; }
+  
+  state.board[idx] = state.mySymbol;
+  const nextTurn = (state.turn === 'X') ? 'O' : 'X';
+  
+  const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
+  update(roomRef, {
+    board: state.board,
+    turn: nextTurn
+  });
 }
 
 function evaluateGameLocal(){
-  const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  for (const [a,b,c] of lines){
-    if (state.board[a] && state.board[a] !== "" && state.board[a]===state.board[b] && state.board[a]===state.board[c]){
-      state.winner = state.board[a]; 
-      state.gameActive = false;
-      showMessage(state.winner === state.mySymbol ? "تهانينا! لقد فزت باللقب 🎉" : `للأسف خَسرت، الفائز هو الخصم (${state.winner})`);
-      rematchBtn.disabled = false;
-      return true;
-    }
-  }
-  if (state.board.every(x=> x && x!=="")){ 
-    state.winner = 'draw'; 
-    state.gameActive = false; 
-    rematchBtn.disabled = false; 
-    showMessage('تعادل قوي بين الطرفين! 🙌'); 
-    return true; 
-  }
-  state.winner = null; 
-  rematchBtn.disabled = true; 
-  return false;
+  const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for (const [a,b,c] of lines){
+    if (state.board[a] && state.board[a] !== "" && state.board[a]===state.board[b] && state.board[a]===state.board[c]){
+      state.winner = state.board[a]; 
+      state.gameActive = false;
+      showMessage(state.winner === state.mySymbol ? "تهانينا! لقد فزت باللقب 🎉" : `للأسف خَسرت، الفائز هو الخصم (${state.winner})`);
+      rematchBtn.disabled = false;
+      return true;
+    }
+  }
+  if (state.board.every(x=> x && x!=="")){ 
+    state.winner = 'draw'; 
+    state.gameActive = false; 
+    rematchBtn.disabled = false; 
+    showMessage('تعادل قوي بين الطرفين! 🙌'); 
+    return true; 
+  }
+  state.winner = null; 
+  rematchBtn.disabled = true; 
+  return false;
 }
 
 function updateTurnUI(){
-  if (!state.currentRoom){ turnTextEl.textContent='غير متصل'; roomIdDisplay.textContent='غير متصل'; opponentInfoEl.style.display='none'; rematchBtn.disabled=true; return; }
-  roomIdDisplay.textContent = `رمز الغرفة: ${state.currentRoom.id}`;
-  const players = state.currentRoom.players || [];
-  const opp = players.find(p=>p.id!==state.playerId);
-  if (opp){ opponentInfoEl.style.display='flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0) || 'م'; } else { opponentInfoEl.style.display='none'; }
-  
-  if (state.gameActive) {
-    turnTextEl.textContent = (state.turn === state.mySymbol) ? "دورك الآن! ⚡" : "دور الخصم..⏳";
-  } else {
-    if (state.winner) {
-      if (state.winner === 'draw') {
-        turnTextEl.textContent = 'تعادل! 🙌';
-      } else {
-        turnTextEl.textContent = (state.winner === state.mySymbol) ? "لقد فزت! 🎉" : "لقد خسرت.. 😢";
-      }
-    } else {
-      turnTextEl.textContent = (state.currentRoom.status === 'open') ? 'بانتظار لاعب آخر' : 'انتهت اللعبة';
-    }
-  }
+  if (!state.currentRoom){ turnTextEl.textContent='غير متصل'; roomIdDisplay.textContent='غير متصل'; opponentInfoEl.style.display='none'; rematchBtn.disabled=true; return; }
+  roomIdDisplay.textContent = `رمز الغرفة: ${state.currentRoom.id}`;
+  const players = state.currentRoom.players || [];
+  const opp = players.find(p=>p.id!==state.playerId);
+  if (opp){ opponentInfoEl.style.display='flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0) || 'م'; } else { opponentInfoEl.style.display='none'; }
+  
+  if (state.gameActive) {
+    turnTextEl.textContent = (state.turn === state.mySymbol) ? "دورك الآن! ⚡" : "دور الخصم..⏳";
+  } else {
+    if (state.winner) {
+      if (state.winner === 'draw') {
+        turnTextEl.textContent = 'تعادل! 🙌';
+      } else {
+        turnTextEl.textContent = (state.winner === state.mySymbol) ? "لقد فزت! 🎉" : "لقد خسرت.. 😢";
+      }
+    } else {
+      turnTextEl.textContent = (state.currentRoom.status === 'open') ? 'بانتظار لاعب آخر' : 'انتهت اللعبة';
+    }
+  }
 }
 
 function updateRoomUI(){
-  updatePlayerUI();
-  if (!state.currentRoom){ 
-    renderBoard(); 
-    chatSection.style.display = 'none'; 
-    leaveRoomBtn.style.display = 'none';
-    return; 
-  }
-  const players = state.currentRoom.players || [];
-  const idx = players.findIndex(p=>p.id===state.playerId);
-  state.mySymbol = (idx===0)?'X':'O';
-  
-  const opp = players.find(p=>p.id!==state.playerId);
-  if(opp){ opponentInfoEl.style.display = 'flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0); } else { opponentInfoEl.style.display = 'none'; }
-  
-  chatSection.style.display = 'flex'; 
-  leaveRoomBtn.style.display = 'inline-block'; 
-  renderBoard();
+  updatePlayerUI();
+  if (!state.currentRoom){ 
+    renderBoard(); 
+    chatSection.style.display = 'none'; 
+    leaveRoomBtn.style.display = 'none';
+    return; 
+  }
+  const players = state.currentRoom.players || [];
+  const idx = players.findIndex(p=>p.id===state.playerId);
+  state.mySymbol = (idx===0)?'X':'O';
+  
+  const opp = players.find(p=>p.id!==state.playerId);
+  if(opp){ opponentInfoEl.style.display = 'flex'; oppNameEl.textContent = opp.name; oppAvatarEl.textContent = opp.name.charAt(0); } else { opponentInfoEl.style.display = 'none'; }
+  
+  chatSection.style.display = 'flex'; // إظهار الشات عند الدخول للغرفة
+  leaveRoomBtn.style.display = 'inline-block'; // إظهار زر الخروج
+  renderBoard();
 }
 
 function renderRoomsList(){
-  roomsListEl.innerHTML = '';
-  const roomsArr = Object.values(state.rooms).sort((a,b)=>b.createdAt - a.createdAt);
-  roomsCountEl.textContent = roomsArr.length;
-  if (roomsArr.length===0){ 
-    const empty = document.createElement('div'); empty.className='alert'; empty.textContent='لا توجد غرف حالياً.'; roomsListEl.appendChild(empty); return; 
-  }
-  roomsArr.forEach(room => {
-    const el = document.createElement('div'); el.className='room-item';
-    const meta = document.createElement('div'); meta.className='room-meta';
-    const name = document.createElement('div'); name.className='room-name'; name.textContent = `غرفة ${room.id}`;
-    const playersStr = room.players ? room.players.map(p=>p.name).join(' ضد ') : 'فارغة';
-    const players = document.createElement('div'); players.className='room-players'; players.textContent = playersStr;
-    meta.appendChild(name); meta.appendChild(players);
-    
-    const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px'; right.style.alignItems='center';
-    const isFull = room.players && room.players.length >= 2;
-    const badge = document.createElement('div'); badge.className='badge ' + (isFull ? 'full' : 'open'); badge.textContent = isFull ? 'ممتلئة' : 'متاحة';
-    const joinBtn = document.createElement('button'); joinBtn.className='btn small'; joinBtn.textContent='انضم';
-    if(isFull) joinBtn.disabled = true;
-    joinBtn.onclick = ()=>{ if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً.', true); return; } joinRoom(room.id); };
-    
-    right.appendChild(badge); right.appendChild(joinBtn);
-    el.appendChild(meta); el.appendChild(right);
-    roomsListEl.appendChild(el);
-  });
+  roomsListEl.innerHTML = '';
+  const roomsArr = Object.values(state.rooms).sort((a,b)=>b.createdAt - a.createdAt);
+  roomsCountEl.textContent = roomsArr.length;
+  if (roomsArr.length===0){ 
+    const empty = document.createElement('div'); empty.className='alert'; empty.textContent='لا توجد غرف حالياً.'; roomsListEl.appendChild(empty); return; 
+  }
+  roomsArr.forEach(room => {
+    const el = document.createElement('div'); el.className='room-item';
+    const meta = document.createElement('div'); meta.className='room-meta';
+    const name = document.createElement('div'); name.className='room-name'; name.textContent = `غرفة ${room.id}`;
+    const playersStr = room.players ? room.players.map(p=>p.name).join(' ضد ') : 'فارغة';
+    const players = document.createElement('div'); players.className='room-players'; players.textContent = playersStr;
+    meta.appendChild(name); meta.appendChild(players);
+    
+    const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px'; right.style.alignItems='center';
+    const isFull = room.players && room.players.length >= 2;
+    const badge = document.createElement('div'); badge.className='badge ' + (isFull ? 'full' : 'open'); badge.textContent = isFull ? 'ممتلئة' : 'متاحة';
+    const joinBtn = document.createElement('button'); joinBtn.className='btn small'; joinBtn.textContent='انضم';
+    if(isFull) joinBtn.disabled = true;
+    joinBtn.onclick = ()=>{ if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً.', true); return; } joinRoom(room.id); };
+    
+    right.appendChild(badge); right.appendChild(joinBtn);
+    el.appendChild(meta); el.appendChild(right);
+    roomsListEl.appendChild(el);
+  });
 }
 
 /* دالة عرض رسائل الشات */
 function renderChat(messagesObj) {
-  chatMessages.innerHTML = '';
-  if (!messagesObj) return;
-  const msgs = Object.values(messagesObj).sort((a, b) => a.timestamp - b.timestamp);
-  msgs.forEach(msg => {
-    const msgDiv = document.createElement('div');
-    if (msg.senderId === state.playerId) {
-      msgDiv.className = 'chat-msg me';
-      msgDiv.innerHTML = `<b>أنت:</b> ${msg.text}`;
-    } else {
-      msgDiv.className = 'chat-msg opp';
-      msgDiv.innerHTML = `<b>${msg.senderName}:</b> ${msg.text}`;
-    }
-    chatMessages.appendChild(msgDiv);
-  });
-  chatMessages.scrollTop = chatMessages.scrollHeight; 
+  chatMessages.innerHTML = '';
+  if (!messagesObj) return;
+  const msgs = Object.values(messagesObj).sort((a, b) => a.timestamp - b.timestamp);
+  msgs.forEach(msg => {
+    const msgDiv = document.createElement('div');
+    if (msg.senderId === state.playerId) {
+      msgDiv.className = 'chat-msg me';
+      msgDiv.innerHTML = `<b>أنت:</b> ${msg.text}`;
+    } else {
+      msgDiv.className = 'chat-msg opp';
+      msgDiv.innerHTML = `<b>${msg.senderName}:</b> ${msg.text}`;
+    }
+    chatMessages.appendChild(msgDiv);
+  });
+  chatMessages.scrollTop = chatMessages.scrollHeight; // النزول التلقائي لآخر رسالة
 }
 
 /* دالة إرسال الرسالة إلى الـ Firebase */
 function sendChatMessage() {
-  const text = chatInput.value.trim();
-  if (!text || !state.currentRoom) return;
-  const msgId = 'm_' + Date.now();
-  const msgRef = ref(db, `rooms/${state.currentRoom.id}/messages/${msgId}`);
-  set(msgRef, {
-    senderName: state.playerName,
-    senderId: state.playerId,
-    text: text,
-    timestamp: Date.now()
-  });
-  chatInput.value = '';
+  const text = chatInput.value.trim();
+  if (!text || !state.currentRoom) return;
+  const msgId = 'm_' + Date.now();
+  const msgRef = ref(db, `rooms/${state.currentRoom.id}/messages/${msgId}`);
+  set(msgRef, {
+    senderName: state.playerName,
+    senderId: state.playerId,
+    text: text,
+    timestamp: Date.now()
+  });
+  chatInput.value = '';
 }
 
 sendChatBtn.addEventListener('click', sendChatMessage);
@@ -703,79 +700,79 @@ chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatM
 
 function showMessage(text, isError=false){ messageEl.textContent = text; messageEl.style.color = isError ? 'var(--danger)' : 'var(--text)'; }
 
-createRoomBtn.addEventListener('click', ()=>{ 
-  if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً قبل إنشاء الغرفة.', true); return; } 
-  createRoom(); 
+createRoomBtn.addEventListener('click', ()=>{ 
+  if (!playerNameInput.value.trim()){ showMessage('أدخل اسمك أولاً قبل إنشاء الغرفة.', true); return; } 
+  createRoom(); 
 });
 
-joinRoomBtn.addEventListener('click', ()=>{ 
-  const id = joinRoomIdInput.value.trim().toUpperCase(); 
-  if (!id){ showMessage('أدخل رمز الغرفة للانضمام.', true); return; } 
-  joinRoom(id); 
+joinRoomBtn.addEventListener('click', ()=>{ 
+  const id = joinRoomIdInput.value.trim().toUpperCase(); 
+  if (!id){ showMessage('أدخل رمز الغرفة للانضمام.', true); return; } 
+  joinRoom(id); 
 });
 
-resetBtn.addEventListener('click', ()=>{ 
-  if (!state.currentRoom) return;
-  const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
-  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing', messages: null, rematch: null });
+resetBtn.addEventListener('click', ()=>{ 
+  if (!state.currentRoom) return;
+  const roomRef = ref(db, 'rooms/' + state.currentRoom.id);
+  update(roomRef, { board: Array(9).fill(""), turn: 'X', status: 'playing', messages: null, rematch: null });
 });
 
 /* وظيفة زر تنظيف السيرفر */
 clearRoomsBtn.addEventListener('click', () => {
-  if (confirm('هل أنت متأكد من رغبتك في حذف جميع الغرف؟ سيؤدي هذا إلى إنهاء جميع الألعاب الحالية للجميع.')) {
-    const roomsRef = ref(db, 'rooms');
-    
-    remove(roomsRef).then(() => {
-      showMessage('تم تنظيف السيرفر وحذف جميع الغرف بنجاح!');
-      state.currentRoom = null;
-      state.board = Array(9).fill("");
-      state.mySymbol = null;
-      state.turn = null;
-      state.gameActive = false;
-      state.winner = null;
-      updateRoomUI();
-    }).catch((error) => {
-      showMessage('حدث خطأ أثناء تنظيف السيرفر، تأكد من صلاحيات Firebase.', true);
-      console.error(error);
-    });
-  }
+  if (confirm('هل أنت متأكد من رغبتك في حذف جميع الغرف؟ سيؤدي هذا إلى إنهاء جميع الألعاب الحالية للجميع.')) {
+    const roomsRef = ref(db, 'rooms');
+    
+    remove(roomsRef).then(() => {
+      showMessage('تم تنظيف السيرفر وحذف جميع الغرف بنجاح!');
+      state.currentRoom = null;
+      state.board = Array(9).fill("");
+      state.mySymbol = null;
+      state.turn = null;
+      state.gameActive = false;
+      state.winner = null;
+      updateRoomUI();
+    }).catch((error) => {
+      showMessage('حدث خطأ أثناء تنظيف السيرفر، تأكد من صلاحيات Firebase.', true);
+      console.error(error);
+    });
+  }
 });
 
-/* منطق زر الخروج */
+/* منطق زر الخروج الجديد */
 leaveRoomBtn.addEventListener('click', () => {
-  if (!state.currentRoom) return;
-  const roomId = state.currentRoom.id;
-  const roomRef = ref(db, 'rooms/' + roomId);
-  
-  let updatedPlayers = (state.currentRoom.players || []).filter(p => p.id !== state.playerId);
-  
-  if (updatedPlayers.length === 0) {
-    remove(roomRef);
-  } else {
-    update(roomRef, {
-      players: updatedPlayers,
-      status: 'open',
-      board: Array(9).fill(""),
-      rematch: null
-    });
-  }
-  
-  state.currentRoom = null;
-  state.board = Array(9).fill("");
-  state.mySymbol = null;
-  state.turn = null;
-  state.gameActive = false;
-  state.winner = null;
-  
-  updateRoomUI();
-  showMessage('لقد خرجت من الغرفة والمباراة الحالية.');
+  if (!state.currentRoom) return;
+  const roomId = state.currentRoom.id;
+  const roomRef = ref(db, 'rooms/' + roomId);
+  
+  let updatedPlayers = (state.currentRoom.players || []).filter(p => p.id !== state.playerId);
+  
+  if (updatedPlayers.length === 0) {
+    remove(roomRef);
+  } else {
+    update(roomRef, {
+      players: updatedPlayers,
+      status: 'open',
+      board: Array(9).fill(""),
+      rematch: null
+    });
+  }
+  
+  state.currentRoom = null;
+  state.board = Array(9).fill("");
+  state.mySymbol = null;
+  state.turn = null;
+  state.gameActive = false;
+  state.winner = null;
+  
+  updateRoomUI();
+  showMessage('لقد خرجت من الغرفة والمباراة الحالية.');
 });
 
-/* زر إعادة اللعب */
-rematchBtn.addEventListener('click', ()=>{ 
-  if (!state.currentRoom) return;
-  const rematchVoteRef = ref(db, `rooms/${state.currentRoom.id}/rematch/${state.playerId}`);
-  set(rematchVoteRef, true);
+/* تعديل زر إعادة اللعب لطلب الموافقة */
+rematchBtn.addEventListener('click', ()=>{ 
+  if (!state.currentRoom) return;
+  const rematchVoteRef = ref(db, `rooms/${state.currentRoom.id}/rematch/${state.playerId}`);
+  set(rematchVoteRef, true);
 });
 
 function setDarkMode(on){ if (on){ document.documentElement.classList.add('dark'); darkToggle.classList.add('on'); localStorage.setItem('xo_dark','1'); } else { document.documentElement.classList.remove('dark'); darkToggle.classList.remove('on'); localStorage.removeItem('xo_dark'); } }
@@ -783,53 +780,52 @@ darkToggle.addEventListener('click', ()=> setDarkMode(!darkToggle.classList.cont
 if (localStorage.getItem('xo_dark')) setDarkMode(true);
 
 function listenToFirebase(){
-  onValue(ref(db, 'rooms'), (snapshot) => {
-    state.rooms = snapshot.val() || {};
-    renderRoomsList();
-    
-    if (state.currentRoom && state.rooms[state.currentRoom.id]) {
-      const activeRoom = state.rooms[state.currentRoom.id];
-      state.currentRoom = activeRoom;
-      state.board = activeRoom.board ? activeRoom.board.slice() : Array(9).fill("");
-      state.turn = activeRoom.turn;
-      state.gameActive = (activeRoom.status === 'playing');
-      
-      updateRoomUI();
-      evaluateGameLocal();
-      
-      // منطق فحص حالة طلبات إعادة اللعب
-      if (activeRoom.rematch) {
-        const voters = Object.keys(activeRoom.rematch);
-        const totalPlayers = activeRoom.players ? activeRoom.players.length : 0;
-        
-        if (voters.length >= 2 && totalPlayers === 2) {
-          const roomRef = ref(db, 'rooms/' + activeRoom.id);
-          update(roomRef, {
-            board: Array(9).fill(""),
-            turn: 'X',
-            status: 'playing',
-            messages: null,
-            rematch: null
-          });
-        } else if (voters.length === 1) {
-          if (voters[0] === state.playerId) {
-            showMessage('تم إرسال طلبك، يرجى انتظار الخصم لضغط زر إعادة اللعب... ⏳');
-          } else {
-            showMessage('الخصم يطلب جولة جديدة! يرجى ضغط زر إعادة اللعب للمواجهة ⚔️');
-          }
-        }
-      }
-      
-      updateTurnUI();
-      renderChat(activeRoom.messages); 
-    }
-  }, (error) => {
-    showMessage("حدث خطأ في الاتصال بقاعدة البيانات. تأكد من تفعيل قواعد الحماية (Rules) في Firebase.", true);
-    console.error("Firebase Database Error: ", error);
-  });
+  onValue(ref(db, 'rooms'), (snapshot) => {
+    state.rooms = snapshot.val() || {};
+    renderRoomsList();
+    
+    if (state.currentRoom && state.rooms[state.currentRoom.id]) {
+      const activeRoom = state.rooms[state.currentRoom.id];
+      state.currentRoom = activeRoom;
+      state.board = activeRoom.board ? activeRoom.board.slice() : Array(9).fill("");
+      state.turn = activeRoom.turn;
+      state.gameActive = (activeRoom.status === 'playing');
+      
+      updateRoomUI();
+      evaluateGameLocal();
+      
+      // منطق فحص حالة طلبات إعادة اللعب
+      if (activeRoom.rematch) {
+        const voters = Object.keys(activeRoom.rematch);
+        const totalPlayers = activeRoom.players ? activeRoom.players.length : 0;
+        
+        if (voters.length >= 2 && totalPlayers === 2) {
+          // كلا اللاعبين وافقا، ابدأ جولة جديدة فوراً
+          const roomRef = ref(db, 'rooms/' + activeRoom.id);
+          update(roomRef, {
+            board: Array(9).fill(""),
+            turn: 'X',
+            status: 'playing',
+            messages: null,
+            rematch: null
+          });
+        } else if (voters.length === 1) {
+          // أحد اللاعبين ضغط فقط
+          if (voters[0] === state.playerId) {
+            showMessage('تم إرسال طلبك، يرجى انتظار الخصم لضغط زر إعادة اللعب... ⏳');
+          } else {
+            showMessage('الخصم يطلب جولة جديدة! يرجى ضغط زر إعادة اللعب للمواجهة ⚔️');
+          }
+        }
+      }
+      
+      updateTurnUI();
+      renderChat(activeRoom.messages); 
+    }
+  });
 }
 
-initPlayer(); 
+initPlayer(); 
 listenToFirebase();
 showMessage('متصل بالسيرفر بنجاح! جاهز للعب والدردشة.');
 </script>
