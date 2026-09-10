@@ -9,8 +9,9 @@
 <meta property="og:description" content="العب لعبة XO أونلاين جماعية مع أصدقائك وتحدى الآخرين مع ميزة الدردشة الحية." />
 <meta name="twitter:title" content="XO ONLINE" />
 
-<!-- كود Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8765622130642373" crossorigin="anonymous"></script>
+<!-- سكربت جوجل أدسنس الرئيسي -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8765622130642373"
+     crossorigin="anonymous"></script>
 
 <style>
 /* ===========================
@@ -411,6 +412,20 @@ body{
           </div>
         </div>
 
+        <!-- إعلان جوجل أدسنس المضاف -->
+        <div style="margin-top: 10px;">
+          <!-- مال -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-8765622130642373"
+               data-ad-slot="6059631523"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+               (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+
         <div class="footer-actions">
           <button id="clearRoomsBtn" class="btn danger-ghost">تنظيف السيرفر</button>
         </div>
@@ -423,6 +438,7 @@ body{
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, set, get, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+// إعدادات الـ Firebase المعدلة والصحيحة
 const firebaseConfig = {
   apiKey: "AIzaSyCdW9WBkJ_7zhl4eIvHWF5ESGbks01p_cs",
   authDomain: "xo-online-94196.firebaseapp.com",
